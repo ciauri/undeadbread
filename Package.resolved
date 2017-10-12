@@ -1,0 +1,169 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Bits",
+        "repositoryURL": "https://github.com/vapor/bits.git",
+        "state": {
+          "branch": null,
+          "revision": "c32f5e6ae2007dccd21a92b7e33eba842dd80d2f",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "COpenSSL",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-COpenSSL.git",
+        "state": {
+          "branch": null,
+          "revision": "87b6d1f313887fa11bd75e157a3678f066eec981",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "CTLS",
+        "repositoryURL": "https://github.com/vapor/ctls.git",
+        "state": {
+          "branch": null,
+          "revision": "fddec6a4643d6e85b6bb6dc54b1b5cdbabd395d2",
+          "version": "1.1.2"
+        }
+      },
+      {
+        "package": "Core",
+        "repositoryURL": "https://github.com/vapor/core.git",
+        "state": {
+          "branch": null,
+          "revision": "b8330808f4f6b69941961afe8ad6b015562f7b7c",
+          "version": "2.1.2"
+        }
+      },
+      {
+        "package": "Crypto",
+        "repositoryURL": "https://github.com/vapor/crypto.git",
+        "state": {
+          "branch": null,
+          "revision": "bf4470b9da79024aab79c85de80374f6c29e3864",
+          "version": "2.1.1"
+        }
+      },
+      {
+        "package": "Debugging",
+        "repositoryURL": "https://github.com/vapor/debugging.git",
+        "state": {
+          "branch": null,
+          "revision": "49c5e8f0a7cb5456a8f7c72c6cd9f1553e5885a8",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "JSON",
+        "repositoryURL": "https://github.com/vapor/json.git",
+        "state": {
+          "branch": null,
+          "revision": "735800d8f2e75ebe3be25559eb6a781f4666dcfc",
+          "version": "2.2.1"
+        }
+      },
+      {
+        "package": "JWT",
+        "repositoryURL": "https://github.com/vapor/jwt.git",
+        "state": {
+          "branch": null,
+          "revision": "84f4cabfa702208bddfd93cd76df88df9e6ef4ef",
+          "version": "2.3.0"
+        }
+      },
+      {
+        "package": "Node",
+        "repositoryURL": "https://github.com/vapor/node.git",
+        "state": {
+          "branch": null,
+          "revision": "642f357d08ec5aa335ae2e3c4633c72da7b5a0c4",
+          "version": "2.1.1"
+        }
+      },
+      {
+        "package": "PerfectCSQLite3",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-sqlite3-support.git",
+        "state": {
+          "branch": null,
+          "revision": "fb806c0fd0fcbf27ababa9c03a00e32c2c46464c",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "PerfectCrypto",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Crypto.git",
+        "state": {
+          "branch": null,
+          "revision": "c14a840457bf2c951fbb94a37ed26645e7cc7365",
+          "version": "3.0.1"
+        }
+      },
+      {
+        "package": "PerfectHTTP",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-HTTP.git",
+        "state": {
+          "branch": null,
+          "revision": "2454e72f55145c4efa82805848e962070c7245c3",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "PerfectHTTPServer",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-HTTPServer.git",
+        "state": {
+          "branch": null,
+          "revision": "f493937203568db511425117574487821378eac5",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "PerfectLib",
+        "repositoryURL": "https://github.com/PerfectlySoft/PerfectLib.git",
+        "state": {
+          "branch": null,
+          "revision": "2f1b820a7a091336ee80e2450a5076c1c6d0624d",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "PerfectNet",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Net.git",
+        "state": {
+          "branch": null,
+          "revision": "5e137023e0373b3bdd46a5c80c3ec868fd1c383d",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "PerfectSQLite",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-SQLite.git",
+        "state": {
+          "branch": null,
+          "revision": "b9fcb096a37b8f9996c236c899acea674366a3ee",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "PerfectThread",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Thread.git",
+        "state": {
+          "branch": null,
+          "revision": "2b63f0fa535d089eef57eb3683d2da31b7b9e027",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "Random",
+        "repositoryURL": "https://github.com/vapor/random.git",
+        "state": {
+          "branch": null,
+          "revision": "d7c4397d125caba795d14d956efacfe2a27a63d0",
+          "version": "1.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
