@@ -8,6 +8,8 @@
 import Foundation
 import PerfectHTTP
 import PerfectLib
+import TurnstilePerfect
+import Turnstile
 //import PerfectCrypto
 import JWT
 
@@ -38,10 +40,31 @@ class AuthenticationResource {
             return
         }
         
+        let credArray = decodedString.split(":")
+        let credentials = UsernamePassword(username: credArray.first!, password: credArray.last!)
+        
+        do {
+            try request.user.register(credentials: credentials)
+            try request.user.login(credentials: credentials)
+        } catch let e as CredentialsError {
+            response.appendBody(string: e.description)
+            response.completed(status: .unauthorized)
+            return
+        } catch {
+            response.appendBody(string: "Unknown error")
+            response.completed(status: .internalServerError)
+            return
+        }
+        
+        
+        
+        
         let exp = ExpirationTimeClaim(createTimestamp: { () -> Seconds in
             return Int(Date().timeIntervalSince1970) + 60
         })
-        guard let jwtlol = try? JWT(payload: JSON([exp]), signer: HS256(key: "secret".bytes)),
+        
+        guard let userID = response.request.user.authDetails?.account.uniqueID,
+            let jwtlol = try? JWT(payload: JSON([exp, SubjectClaim(string: userID)]), signer: HS256(key: "secret".bytes)),
             let token = try? jwtlol.createToken() else {
                 response.completed(status: .internalServerError)
                 return
@@ -63,11 +86,14 @@ class AuthenticationResource {
         response.setHeader(.cacheControl, value: "no-store")
         response.setHeader(.pragma, value: "no-cache")
         
-
-        // Validate refresh token provided in request
-        // Create and return new access token
-        try? response.appendBody(encodable: Token(accessToken: "yolo", refreshToken: nil, expiresIn: 60))
-        response.completed(status: .created)
+        if response.request.user.authenticated {
+            // Validate refresh token provided in request
+            // Create and return new access token
+            try? response.appendBody(encodable: Token(accessToken: "yolo", refreshToken: nil, expiresIn: 60))
+            response.completed(status: .created)
+        } else {
+            response.completed(status: .unauthorized)
+        }
     }
     
     

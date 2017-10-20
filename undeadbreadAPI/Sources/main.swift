@@ -10,6 +10,7 @@ import PerfectLib
 import PerfectHTTP
 import PerfectHTTPServer
 import PerfectCrypto
+import TurnstilePerfect
 import Foundation
 
 class UndeadBreadAPI {
@@ -25,10 +26,24 @@ class UndeadBreadAPI {
         routes.add(InitializationResource.routes)
         routes.add(AuthenticationResource.routes)
         
+        let turnstile = TurnstilePerfect()
+        
+        var authConfig = AuthenticationConfig()
+        let excludedURIs = (InitializationResource.routes + AuthenticationResource.routes).map({$0.uri})
+        authConfig.exclude(excludedURIs)
+        let authFilter = AuthFilter(authConfig)
+        
+        
+        
         server = HTTPServer()
-        server.addRoutes(routes)
         server.serverPort = 8181
         server.serverName = Host.current().name ?? ""
+        server.addRoutes(routes)
+        
+        server.setRequestFilters([turnstile.requestFilter])
+        server.setResponseFilters([turnstile.responseFilter])
+        server.setRequestFilters([(authFilter, .high)])
+        
         
         baseURL = URL(string: "http://\(server.serverName):\(server.serverPort != 80 ? server.serverPort : 80)\(baseUri)")!
     }

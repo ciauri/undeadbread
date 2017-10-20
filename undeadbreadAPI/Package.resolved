@@ -128,6 +128,15 @@
         }
       },
       {
+        "package": "PerfectMustache",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Mustache.git",
+        "state": {
+          "branch": null,
+          "revision": "aed286fa7bea0ab157f8ef640adb1c668bc2729d",
+          "version": "3.0.0"
+        }
+      },
+      {
         "package": "PerfectNet",
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Net.git",
         "state": {
@@ -150,8 +159,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Thread.git",
         "state": {
           "branch": null,
-          "revision": "2b63f0fa535d089eef57eb3683d2da31b7b9e027",
-          "version": "3.0.0"
+          "revision": "15e3eb947d2465a072c41c9a0bfbefa6c48b34ee",
+          "version": "3.0.1"
         }
       },
       {
@@ -161,6 +170,33 @@
           "branch": null,
           "revision": "d7c4397d125caba795d14d956efacfe2a27a63d0",
           "version": "1.2.0"
+        }
+      },
+      {
+        "package": "SwiftString",
+        "repositoryURL": "https://github.com/iamjono/SwiftString.git",
+        "state": {
+          "branch": null,
+          "revision": "9cdd54d6b8713665fe873ce48b144b813dfc79ad",
+          "version": "2.0.3"
+        }
+      },
+      {
+        "package": "Turnstile",
+        "repositoryURL": "https://github.com/stormpath/Turnstile.git",
+        "state": {
+          "branch": null,
+          "revision": "6426a6d3c17dca7c6070b9f76859c93b1ab2815a",
+          "version": "1.0.6"
+        }
+      },
+      {
+        "package": "TurnstilePerfect",
+        "repositoryURL": "https://github.com/PerfectSideRepos/Turnstile-Perfect",
+        "state": {
+          "branch": null,
+          "revision": "c40fcb79a2f103b93f044b0f682e4abb27e77cec",
+          "version": "3.0.0"
         }
       }
     ]
