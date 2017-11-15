@@ -1,4 +1,4 @@
-//
+
 //  main.swift
 //  undeadbreadAPI
 //
@@ -11,6 +11,7 @@ import PerfectHTTP
 import PerfectHTTPServer
 import PerfectCrypto
 import TurnstilePerfect
+import Turnstile
 import Foundation
 
 class UndeadBreadAPI {
@@ -20,18 +21,19 @@ class UndeadBreadAPI {
     private(set) var baseURL: URL
     private let baseUri = "/v1"
     private(set) var config: [String:Any]?
+    let signingSecret = "this is a secret, don't tell anyone"
 
     init() {
         var routes = Routes(baseUri: baseUri)
         routes.add(InitializationResource.routes)
         routes.add(AuthenticationResource.routes)
         
-        let turnstile = TurnstilePerfect()
+//        let turnstile = TurnstilePerfect(realm: UndeadbreadMemoryRealm())
         
         var authConfig = AuthenticationConfig()
         let excludedURIs = (InitializationResource.routes + AuthenticationResource.routes).map({$0.uri})
         authConfig.exclude(excludedURIs)
-        let authFilter = AuthFilter(authConfig)
+        let authFilter = UDBAuthFilter(authConfig)
         
         
         
@@ -40,8 +42,8 @@ class UndeadBreadAPI {
         server.serverName = Host.current().name ?? ""
         server.addRoutes(routes)
         
-        server.setRequestFilters([turnstile.requestFilter])
-        server.setResponseFilters([turnstile.responseFilter])
+//        server.setRequestFilters([turnstile.requestFilter])
+//        server.setResponseFilters([turnstile.responseFilter])
         server.setRequestFilters([(authFilter, .high)])
         
         

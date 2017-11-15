@@ -8,8 +8,8 @@
 import Foundation
 import PerfectHTTP
 import PerfectLib
-import TurnstilePerfect
-import Turnstile
+//import TurnstilePerfect
+//import Turnstile
 //import PerfectCrypto
 import JWT
 
@@ -41,38 +41,25 @@ class AuthenticationResource {
         }
         
         let credArray = decodedString.split(":")
-        let credentials = UsernamePassword(username: credArray.first!, password: credArray.last!)
-        
-        do {
-            try request.user.register(credentials: credentials)
-            try request.user.login(credentials: credentials)
-        } catch let e as CredentialsError {
-            response.appendBody(string: e.description)
+        guard let user = UserAccount.registerUser(username: credArray.first!, password: credArray.last!) else {
             response.completed(status: .unauthorized)
             return
-        } catch {
-            response.appendBody(string: "Unknown error")
-            response.completed(status: .internalServerError)
-            return
         }
-        
-        
-        
         
         let exp = ExpirationTimeClaim(createTimestamp: { () -> Seconds in
             return Int(Date().timeIntervalSince1970) + 60
         })
         
-        guard let userID = response.request.user.authDetails?.account.uniqueID,
-            let jwtlol = try? JWT(payload: JSON([exp, SubjectClaim(string: userID)]), signer: HS256(key: "secret".bytes)),
+        let userID = user.uniqueID
+        guard let jwtlol = try? JWT(payload: JSON([exp, SubjectClaim(string: userID)]), signer: HS256(key: UndeadBreadAPI.shared.signingSecret.bytes)),
             let token = try? jwtlol.createToken() else {
-                response.completed(status: .internalServerError)
-                return
+                return response.completed(status: .internalServerError)
         }
 
         NSLog("\(decodedString) - \(token)")
         let refreshToken = UUID().uuidString
-        try? response.appendBody(encodable: Token(accessToken: token, refreshToken: refreshToken, expiresIn: 60*30))
+        UserAccount.refreshTokenMap[refreshToken] = user
+        try? response.appendBody(encodable: Token(accessToken: token, refreshToken: refreshToken, expiresIn: 60))
         response.completed(status: .created)
     }
     
@@ -86,10 +73,39 @@ class AuthenticationResource {
         response.setHeader(.cacheControl, value: "no-store")
         response.setHeader(.pragma, value: "no-cache")
         
-        if response.request.user.authenticated {
+        guard let grantType = request.param(name: "grant_type") else {
+            response.completed(status: .unauthorized)
+            return
+        }
+        var account: UserAccount?
+        switch grantType {
+        case "refresh_token":
+            if let token = request.param(name: "refresh_token") {
+                account = UserAccount.authenticate(withRefreshToken: token)
+            }
+        case "password":
+            if let username = request.param(name: "username"),
+                let password = request.param(name: "password") {
+                account = UserAccount.authenticate(username: username, password: password)
+            }
+            break;
+        default:
+            break;
+        }
+        
+        if let account = account {
             // Validate refresh token provided in request
             // Create and return new access token
-            try? response.appendBody(encodable: Token(accessToken: "yolo", refreshToken: nil, expiresIn: 60))
+            let exp = ExpirationTimeClaim(createTimestamp: { () -> Seconds in
+                return Int(Date().timeIntervalSince1970) + 60
+            })
+            
+            let userID = account.uniqueID
+            guard let jwtlol = try? JWT(payload: JSON([exp, SubjectClaim(string: userID)]), signer: HS256(key: UndeadBreadAPI.shared.signingSecret.bytes)),
+                let token = try? jwtlol.createToken() else {
+                    return response.completed(status: .internalServerError)
+            }
+            try? response.appendBody(encodable: Token(accessToken: token, refreshToken: nil, expiresIn: 60))
             response.completed(status: .created)
         } else {
             response.completed(status: .unauthorized)
