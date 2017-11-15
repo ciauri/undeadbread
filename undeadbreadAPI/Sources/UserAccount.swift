@@ -50,7 +50,12 @@ struct UserAccount: Account, Codable {
 
     var uniqueID: String = UUID().uuidString
     var username: String
-    var password: String
+    var password: String = ""
+    
+    enum CodingKeys: String, CodingKey {
+        case uniqueID
+        case username
+    }
     
     init(username: String, password: String) {
         self.username = username

@@ -24,30 +24,23 @@ class UndeadBreadAPI {
     let signingSecret = "this is a secret, don't tell anyone"
 
     init() {
-        var routes = Routes(baseUri: baseUri)
-        routes.add(InitializationResource.routes)
-        routes.add(AuthenticationResource.routes)
-        
-//        let turnstile = TurnstilePerfect(realm: UndeadbreadMemoryRealm())
-        
-        var authConfig = AuthenticationConfig()
-        let excludedURIs = (InitializationResource.routes + AuthenticationResource.routes).map({$0.uri})
-        authConfig.exclude(excludedURIs)
-        let authFilter = UDBAuthFilter(authConfig)
-        
-        
-        
         server = HTTPServer()
         server.serverPort = 8181
         server.serverName = Host.current().name ?? ""
+        baseURL = URL(string: "http://\(server.serverName):\(server.serverPort != 80 ? server.serverPort : 80)\(baseUri)")!
+
+        var routes = Routes(baseUri: baseUri)
+        routes.add(InitializationResource.routes)
+        routes.add(AuthenticationResource.routes)
+        routes.add(PostResource.routes)
         server.addRoutes(routes)
         
-//        server.setRequestFilters([turnstile.requestFilter])
-//        server.setResponseFilters([turnstile.responseFilter])
-        server.setRequestFilters([(authFilter, .high)])
-        
-        
-        baseURL = URL(string: "http://\(server.serverName):\(server.serverPort != 80 ? server.serverPort : 80)\(baseUri)")!
+        var authConfig = AuthenticationConfig()
+        let excludedURIs = (InitializationResource.routes + AuthenticationResource.routes).map({"\(baseUri)\($0.uri)"})
+        authConfig.include("/*")
+        authConfig.exclude(excludedURIs)
+        let authFilter = UDBAuthFilter(authConfig)
+        server.setRequestFilters([(authFilter, .high)])   
     }
     
     private func loadConfig() {
