@@ -12,6 +12,7 @@ struct Initialization: Entity {
     let links: [String : URL] = {
        return [
             "register" : AuthenticationResource.registerRoute.absoluteURLString.urlValue!,
+            "login" : AuthenticationResource.loginRoute.absoluteURLString.urlValue!,
             "token" : AuthenticationResource.tokenRoute.absoluteURLString.urlValue!,
             "createPost" : PostResource.createPostRoute.absoluteURLString.urlValue!,
             "posts" : PostResource.getPostsRoute.absoluteURLString.urlValue!

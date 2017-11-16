@@ -17,6 +17,7 @@ class AuthenticationResource {
     // MARK: - Routes
     // MARK: Root Routes
     static let registerRoute = Route(method: .post, uri: "/register", handler: registrationHandler)
+    static let loginRoute = Route(method: .post, uri: "/login", handler: tokenHandler)
     static let tokenRoute = Route(method: .post, uri: "/token", handler: tokenHandler)
     
     
@@ -86,7 +87,11 @@ class AuthenticationResource {
                 let token = try? jwtlol.createToken() else {
                     return response.completed(status: .internalServerError)
             }
-            try? response.appendBody(encodable: Token(accessToken: token, refreshToken: nil, expiresIn: 60))
+            let refreshToken = request.uri.hasSuffix("/login") ? UUID().uuidString : nil
+            if let refreshToken = refreshToken {
+                UserAccount.refreshTokenMap[refreshToken] = account
+            }
+            try? response.appendBody(encodable: Token(accessToken: token, refreshToken: refreshToken, expiresIn: 60))
             response.completed(status: .created)
         } else {
             response.completed(status: .unauthorized)
