@@ -73,26 +73,7 @@ class AuthenticationResource {
         response.setHeader(.cacheControl, value: "no-store")
         response.setHeader(.pragma, value: "no-cache")
         
-        guard let grantType = request.param(name: "grant_type") else {
-            response.completed(status: .unauthorized)
-            return
-        }
-        var account: UserAccount?
-        switch grantType {
-        case "refresh_token":
-            if let token = request.param(name: "refresh_token") {
-                account = UserAccount.authenticate(withRefreshToken: token)
-            }
-        case "password":
-            if let username = request.param(name: "username"),
-                let password = request.param(name: "password") {
-                account = UserAccount.authenticate(username: username, password: password)
-            }
-            break;
-        default:
-            break;
-        }
-        
+        let account = UserAccount.authenticate(with: request)
         if let account = account {
             // Validate refresh token provided in request
             // Create and return new access token

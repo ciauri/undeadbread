@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PerfectHTTP
 import Turnstile
 import TurnstileCrypto
 import JWT
@@ -21,6 +22,30 @@ struct UserAccount: Account, Codable {
         let userAccount = UserAccount(username: username, password: password)
         users[userAccount.uniqueID] = userAccount
         return userAccount
+    }
+    
+    static func authenticate(with request: HTTPRequest) -> UserAccount? {
+        var account: UserAccount?
+
+        if let grantType = request.param(name: "grant_type") {
+            switch grantType {
+            case "refresh_token":
+                if let token = request.param(name: "refresh_token") {
+                    account = authenticate(withRefreshToken: token)
+                }
+            case "password":
+                if let username = request.param(name: "username"),
+                    let password = request.param(name: "password") {
+                    account = authenticate(username: username, password: password)
+                }
+            default:
+                return nil
+            }
+        } else if let jwt = request.jwt {
+            account = authenticate(with: jwt)
+        }
+        
+        return account
     }
     
     static func authenticate(with jwt: JWT) -> UserAccount? {

@@ -13,7 +13,8 @@ struct Initialization: Entity {
        return [
             "register" : AuthenticationResource.registerRoute.absoluteURLString.urlValue!,
             "token" : AuthenticationResource.tokenRoute.absoluteURLString.urlValue!,
-            "logout": URL(string: "logout")!
+            "createPost" : PostResource.createPostRoute.absoluteURLString.urlValue!,
+            "posts" : PostResource.getPostsRoute.absoluteURLString.urlValue!
         ]
     }()
 }
