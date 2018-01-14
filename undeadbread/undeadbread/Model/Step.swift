@@ -8,15 +8,11 @@
 
 import Foundation
 
-class Step {
+struct Step: Codable {
     static let massFormatter = MassFormatter()
     var instructions: String = ""
     var rations: [Ration] = []
     
-    struct Ration{
-        let amount: Measurement<Unit>
-        let ingredient: Ingredient
-    }
 }
 
 extension Step: CustomStringConvertible {
@@ -25,8 +21,4 @@ extension Step: CustomStringConvertible {
     }
 }
 
-extension Step.Ration: CustomStringConvertible {
-    var description: String {
-        return "\(Step.massFormatter.string(fromValue: amount.value, unit: MassFormatter.Unit.gram)) of \(ingredient)"
-    }
-}
+

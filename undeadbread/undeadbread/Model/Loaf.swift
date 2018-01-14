@@ -9,17 +9,10 @@
 import Foundation
 import UIKit
 
-class Loaf {
+struct Loaf: Codable {
     var name: String
     var recipe: Recipe
     var date: Date
     var ratings: [Rating] = []
-    var images: [UIImage] = []
-
-    
-    init(named: String, using recipe: Recipe, on date: Date) {
-        name = named
-        self.recipe = recipe
-        self.date = date
-    }
+    var images: [URL] = []
 }

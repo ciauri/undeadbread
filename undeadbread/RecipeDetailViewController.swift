@@ -16,6 +16,15 @@ class RecipeDetailViewController: UIViewController {
     enum Section: Int {
         case ingredients
         case steps
+        
+        var name: String {
+            switch self {
+            case .ingredients:
+                return NSLocalizedString("Ingredients", comment: "Recipe ingredients")
+            case .steps:
+                return NSLocalizedString("Steps", comment: "Steps in an recipe section")
+            }
+        }
     }
 
     override func viewDidLoad() {
@@ -41,7 +50,6 @@ extension RecipeDetailViewController: UITableViewDataSource {
                 return recipe.sections[section-1].numberOfRows
             }
         } else {
-            let section = recipe.sections[section-2]
             return 0
         }
     }
@@ -58,7 +66,10 @@ extension RecipeDetailViewController: UITableViewDataSource {
                 cell.textLabel?.text = "\(step)"
             }
         }
-        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return Section(rawValue: section)?.name ?? nil
     }
 }

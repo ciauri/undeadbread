@@ -16,21 +16,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let water = Ingredient(named: "Water")
-        let step1 = Step()
-        step1.instructions = "Pour the %@ into the bowl"
-        let ration = Step.Ration(amount: Measurement(value: 100, unit: UnitMass.grams), ingredient: water)
-        step1.rations = [ration]
-        let step2 = Step()
-        step2.instructions = "???"
-        let step3 = Step()
-        step3.instructions = "profit!"
-        
-        let recipe = Recipe(named: "Tartine Sourdough")
-        recipe.ingredients = [water]
-        recipe.steps = [step1, step2, step3]
+        let water = Ingredient(name: "Water", recipe: nil)
+        let step1 = Step(instructions: "Pour the %@ into the bowl", rations: [Ration(amount: Measurement(value: 100, unit: UnitMass.grams), ingredient: water)])
+        let step2 = Step(instructions: "???", rations: [])
+        let step3 = Step(instructions: "profit", rations: [])
         let section1 = Recipe.Section(title: "The only section", numberOfRows: 3)
-        recipe.sections = [section1]
+
+        let recipe = Recipe(name: "Tartine Sourdough", ingredients: [water], steps: [step1, step2, step3], sections: [section1])
         
         recipes = [recipe]
     }

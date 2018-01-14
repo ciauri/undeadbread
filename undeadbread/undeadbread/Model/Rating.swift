@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Rating {
+struct Rating: Codable {
     var name: String
     var score: Int
 }

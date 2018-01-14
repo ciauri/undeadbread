@@ -8,18 +8,14 @@
 
 import Foundation
 
-class Recipe {
+struct Recipe: Codable {
     var name: String
     var ingredients: [Ingredient] = []
     var steps: [Step] = []
     var sections: [Section] = []
     
-    struct Section {
+    struct Section: Codable {
         let title: String
         let numberOfRows: Int
-    }
-    
-    init(named: String) {
-        name = named
     }
 }
