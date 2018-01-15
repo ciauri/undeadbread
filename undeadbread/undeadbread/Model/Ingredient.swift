@@ -14,6 +14,7 @@ struct Ingredient: Codable {
 }
 
 struct Ration: Codable {
+    private static let formatter: MeasurementFormatter = MeasurementFormatter()
     let amount: Measurement<Unit>
     let ingredient: Ingredient
 }
@@ -27,6 +28,10 @@ extension Ingredient: CustomStringConvertible {
 extension Ration: CustomStringConvertible {
     var description: String {
         return "\(Step.massFormatter.string(fromValue: amount.value, unit: MassFormatter.Unit.gram)) of \(ingredient)"
+    }
+    
+    var formattedAmountAndUnit: String {
+        return Ration.formatter.string(from: amount)
     }
 }
 
