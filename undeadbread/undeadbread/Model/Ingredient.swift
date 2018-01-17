@@ -15,6 +15,10 @@ struct Ingredient: Codable {
 
 struct Ration: Codable {
     private static let formatter: MeasurementFormatter = MeasurementFormatter()
+    
+    static let acceptableMasses: [UnitMass] = [.milligrams, .grams, .kilograms, .ounces, .pounds]
+    static let acceptableVolumes: [UnitVolume] = [.milliliters, .centiliters, .deciliters, .liters, .teaspoons, .tablespoons, .fluidOunces, .cups, .pints, .quarts, .gallons, .bushels]
+    
     let amount: Measurement<Unit>
     let ingredient: Ingredient
 }

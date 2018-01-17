@@ -99,6 +99,21 @@ class NewRecipeTableViewController: UITableViewController {
         return Section(rawValue: section)?.name
     }
     
+    // MARK: - TableViewDelegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let section = Section(rawValue: indexPath.section) {
+            switch section {
+            case .ingredients:
+                performSegue(withIdentifier: "ingredientUnits", sender: self)
+            case .steps:
+                performSegue(withIdentifier: "stepsEditor", sender: self)
+            default:
+                break;
+            }
+        }
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
