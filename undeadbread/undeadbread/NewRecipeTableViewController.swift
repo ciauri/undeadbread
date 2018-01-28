@@ -8,9 +8,17 @@
 
 import UIKit
 
+
+
 class NewRecipeTableViewController: UITableViewController {
     lazy private var name: String = ""
-    lazy private var ingredients: [Ration] = []
+    private var ingredients: [Ration] = [] {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
+    }
     lazy private var steps: [Step] = []
     
     private enum Section: Int {
@@ -84,15 +92,14 @@ class NewRecipeTableViewController: UITableViewController {
                     let ration = ingredients[indexPath.row]
                     cell.textLabel?.text = ration.ingredient.name
                     cell.detailTextLabel?.text = ration.formattedAmountAndUnit
+                    return cell
                 }
             case .steps:
                 return tableView.dequeueReusableCell(withIdentifier: "plusCell", for: indexPath)
             }
         } else {
-            
+            return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         }
-        
-        return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -102,10 +109,13 @@ class NewRecipeTableViewController: UITableViewController {
     // MARK: - TableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let numberOfRows = self.tableView.numberOfRows(inSection: indexPath.section)
         if let section = Section(rawValue: indexPath.section) {
             switch section {
             case .ingredients:
-                performSegue(withIdentifier: "ingredientUnits", sender: self)
+                if (indexPath.row == numberOfRows - 1) {
+                    performSegue(withIdentifier: "ingredientUnits", sender: self)
+                }
             case .steps:
                 performSegue(withIdentifier: "stepsEditor", sender: self)
             default:
@@ -150,14 +160,40 @@ class NewRecipeTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ingredientUnits",
+            let selectedRow = tableView.indexPathForSelectedRow,
+            selectedRow.section == Section.ingredients.rawValue,
+            selectedRow.row != tableView.numberOfRows(inSection: selectedRow.section) - 1,
+            let destination = segue.destination as? NewIngredientTableViewController {
+            destination.existingRation = ingredients[selectedRow.row]
+            destination.delegate = self
+        }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+}
 
+// MARK: - Segue
+extension NewRecipeTableViewController {
+    @IBAction func unwindFromNewIngredient(segue: UIStoryboardSegue) {
+        guard let source = segue.source as? NewIngredientTableViewController,
+            source.existingRation == nil,
+            let ingredient = source.currentRation else {
+                return
+        }
+        ingredients.append(ingredient)
+    }
+}
+
+extension NewRecipeTableViewController: IngredientModifiedDelegate {
+    func didUpdate(ingredient: Ration) {
+        if let selectedIndexPath = tableView.indexPathForSelectedRow,
+            selectedIndexPath.section == Section.ingredients.rawValue {
+            ingredients[selectedIndexPath.row] = ingredient
+        }
+    }
 }

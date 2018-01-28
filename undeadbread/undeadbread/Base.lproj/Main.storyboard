@@ -267,7 +267,7 @@
             </objects>
             <point key="canvasLocation" x="1304.8" y="-599.26108374384239"/>
         </scene>
-        <!--New Ingredient Table View Controller-->
+        <!--Title-->
         <scene sceneID="VrT-Ra-Obn">
             <objects>
                 <tableViewController id="QAO-KB-SnS" customClass="NewIngredientTableViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
@@ -359,8 +359,21 @@
                             <outlet property="delegate" destination="QAO-KB-SnS" id="QKt-ex-o3r"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="O9L-yY-GQe">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="7UI-Fn-9aE">
+                            <connections>
+                                <segue destination="7Lk-9i-IjZ" kind="unwind" unwindAction="unwindFromNewIngredientWithSegue:" id="hNy-PB-w4C"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="amountTextField" destination="cWN-9g-FuX" id="30m-g2-HPq"/>
+                        <outlet property="nameTextField" destination="mW6-xI-If1" id="aEQ-wd-AQv"/>
+                        <outlet property="unitLabel" destination="sVq-ih-7DM" id="RF4-09-IKG"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zcy-6U-JQn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="7Lk-9i-IjZ" userLabel="Exit" sceneMemberID="exit"/>
                 <pickerView contentMode="scaleToFill" id="KTj-26-cv4">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="162"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -640,6 +653,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="MRN-Nw-jDJ"/>
         <segue reference="UQe-c8-GJK"/>
-        <segue reference="zeK-I1-adG"/>
+        <segue reference="zBo-DG-YAS"/>
     </inferredMetricsTieBreakers>
 </document>
