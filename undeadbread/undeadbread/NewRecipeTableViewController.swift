@@ -15,7 +15,7 @@ class NewRecipeTableViewController: UITableViewController {
     private var ingredients: [Ration] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                self?.tableView.reloadData()
+                self?.tableView.reloadSections([Section.ingredients.rawValue], with: .automatic)
             }
         }
     }

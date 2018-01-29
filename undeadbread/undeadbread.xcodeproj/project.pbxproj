@@ -21,6 +21,9 @@
 		9C5B3CA91F42848900BBBE4A /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B3CA21F42848900BBBE4A /* Recipe.swift */; };
 		9C5B3CAA1F42848900BBBE4A /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B3CA31F42848900BBBE4A /* Step.swift */; };
 		9C5B3CAB1F42848900BBBE4A /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B3CA41F42848900BBBE4A /* Tool.swift */; };
+		9C755E3B201E8E9700B1228C /* RecipeResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C755E3A201E8E9700B1228C /* RecipeResultsTableViewController.swift */; };
+		9C755E3D201E924300B1228C /* IngredientResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C755E3C201E924300B1228C /* IngredientResultsTableViewController.swift */; };
+		9C755E41201E92DA00B1228C /* BaseResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C755E40201E92DA00B1228C /* BaseResultsTableViewController.swift */; };
 		9CAD2C08200EFB8300BF46BF /* NewIngredientTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAD2C07200EFB8300BF46BF /* NewIngredientTableViewController.swift */; };
 		9CD2E6401F4289F600F150C5 /* Loaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E63F1F4289F600F150C5 /* Loaf.swift */; };
 		9CD2E6421F428AD200F150C5 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E6411F428AD200F150C5 /* Rating.swift */; };
@@ -65,6 +68,9 @@
 		9C5B3CA21F42848900BBBE4A /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		9C5B3CA31F42848900BBBE4A /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		9C5B3CA41F42848900BBBE4A /* Tool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
+		9C755E3A201E8E9700B1228C /* RecipeResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeResultsTableViewController.swift; sourceTree = "<group>"; };
+		9C755E3C201E924300B1228C /* IngredientResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientResultsTableViewController.swift; sourceTree = "<group>"; };
+		9C755E40201E92DA00B1228C /* BaseResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResultsTableViewController.swift; sourceTree = "<group>"; };
 		9CAD2C07200EFB8300BF46BF /* NewIngredientTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIngredientTableViewController.swift; sourceTree = "<group>"; };
 		9CD2E63F1F4289F600F150C5 /* Loaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loaf.swift; sourceTree = "<group>"; };
 		9CD2E6411F428AD200F150C5 /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
@@ -182,8 +188,11 @@
 			children = (
 				9C5B3C6F1F42845B00BBBE4A /* ViewController.swift */,
 				9C1F56A2200C17C000983404 /* RecipeListTableViewController.swift */,
+				9C755E3A201E8E9700B1228C /* RecipeResultsTableViewController.swift */,
+				9C755E40201E92DA00B1228C /* BaseResultsTableViewController.swift */,
 				9C1F56A4200C17D000983404 /* NewRecipeTableViewController.swift */,
 				9CAD2C07200EFB8300BF46BF /* NewIngredientTableViewController.swift */,
+				9C755E3C201E924300B1228C /* IngredientResultsTableViewController.swift */,
 				9CD2E6461F42983C00F150C5 /* RecipeDetailViewController.swift */,
 				9C1F56AA200C1DA200983404 /* TableViewCells */,
 			);
@@ -330,13 +339,16 @@
 				9C5B3C701F42845B00BBBE4A /* ViewController.swift in Sources */,
 				9CAD2C08200EFB8300BF46BF /* NewIngredientTableViewController.swift in Sources */,
 				9CD2E6471F42983C00F150C5 /* RecipeDetailViewController.swift in Sources */,
+				9C755E41201E92DA00B1228C /* BaseResultsTableViewController.swift in Sources */,
 				9C1F56A5200C17D000983404 /* NewRecipeTableViewController.swift in Sources */,
 				9C1F56A7200C1D7700983404 /* TextFieldTableViewCell.swift in Sources */,
 				9C5B3CAA1F42848900BBBE4A /* Step.swift in Sources */,
 				9C5B3C6E1F42845B00BBBE4A /* AppDelegate.swift in Sources */,
 				9C5B3CA91F42848900BBBE4A /* Recipe.swift in Sources */,
 				9C1F56A3200C17C000983404 /* RecipeListTableViewController.swift in Sources */,
+				9C755E3D201E924300B1228C /* IngredientResultsTableViewController.swift in Sources */,
 				9CD2E6421F428AD200F150C5 /* Rating.swift in Sources */,
+				9C755E3B201E8E9700B1228C /* RecipeResultsTableViewController.swift in Sources */,
 				9C5B3CA51F42848900BBBE4A /* Ingredient.swift in Sources */,
 				9C5B3CAB1F42848900BBBE4A /* Tool.swift in Sources */,
 				9CD2E6401F4289F600F150C5 /* Loaf.swift in Sources */,

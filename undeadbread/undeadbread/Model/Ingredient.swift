@@ -35,7 +35,7 @@ extension Ingredient: CustomStringConvertible {
 
 extension Ration: CustomStringConvertible {
     var description: String {
-        return "\(Step.massFormatter.string(fromValue: amount.value, unit: MassFormatter.Unit.gram)) of \(ingredient)"
+        return "\(formattedAmountAndUnit) of \(ingredient)"
     }
     
     var formattedAmountAndUnit: String {

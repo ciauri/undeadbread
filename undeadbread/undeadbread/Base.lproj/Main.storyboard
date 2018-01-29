@@ -20,11 +20,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="OfH-CM-D6C">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recipe" textLabel="z72-Ey-nC4" detailTextLabel="waz-rP-8QY" style="IBUITableViewCellStyleSubtitle" id="jNj-Ho-d8W">
@@ -68,8 +68,7 @@
                             <constraint firstAttribute="bottom" secondItem="OfH-CM-D6C" secondAttribute="bottom" id="rXW-2X-ubE"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" title="UndeadBread" id="Y1w-o4-O8L">
+                    <navigationItem key="navigationItem" title="UndeadBread" largeTitleDisplayMode="always" id="Y1w-o4-O8L">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dvx-HC-RIt">
                             <connections>
                                 <segue destination="bMk-CA-pJc" kind="show" id="8qa-bE-b2h"/>
@@ -84,10 +83,10 @@
             </objects>
             <point key="canvasLocation" x="508" y="45.812807881773402"/>
         </scene>
-        <!--View Controller-->
+        <!--New-->
         <scene sceneID="2Oe-Zn-rgG">
             <objects>
-                <viewController id="bMk-CA-pJc" sceneMemberID="viewController">
+                <viewController title="New" id="bMk-CA-pJc" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qog-Lb-Yof"/>
                         <viewControllerLayoutGuide type="bottom" id="fwy-3k-Uyx"/>
@@ -136,7 +135,7 @@
             </objects>
             <point key="canvasLocation" x="508" y="-911"/>
         </scene>
-        <!--New Recipe Table View Controller-->
+        <!--New Recipe-->
         <scene sceneID="afp-xp-cSM">
             <objects>
                 <tableViewController id="NpN-DI-hpT" customClass="NewRecipeTableViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
@@ -262,12 +261,13 @@
                             <outlet property="delegate" destination="NpN-DI-hpT" id="wjL-MX-ogk"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="New Recipe" largeTitleDisplayMode="always" id="l5W-TJ-b1Y"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rbo-YV-PYG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1304.8" y="-599.26108374384239"/>
         </scene>
-        <!--Title-->
+        <!--New Ingredient-->
         <scene sceneID="VrT-Ra-Obn">
             <objects>
                 <tableViewController id="QAO-KB-SnS" customClass="NewIngredientTableViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
@@ -278,14 +278,14 @@
                         <sections>
                             <tableViewSection headerTitle="Name" id="JKO-e5-VKw">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="textFieldCell" id="c7O-51-COq" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="textFieldCell" id="c7O-51-COq" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c7O-51-COq" id="c8M-hx-LHK">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TextField" placeholder="Placeholder" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mW6-xI-If1">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Flour" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mW6-xI-If1">
                                                     <rect key="frame" x="16" y="11" width="343" height="22"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
@@ -304,14 +304,14 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Amount" id="9ei-Lw-WBt">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="textFieldCell" id="9QG-1H-aXc" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="textFieldCell" id="9QG-1H-aXc" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="155.33333333333334" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9QG-1H-aXc" id="gbp-Y9-Tgx">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TextField" placeholder="Placeholder" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cWN-9g-FuX">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="123.45" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cWN-9g-FuX">
                                                     <rect key="frame" x="16" y="11" width="343" height="22"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -330,14 +330,14 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Units" id="eJI-hr-jbc">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="sVq-ih-7DM" style="IBUITableViewCellStyleDefault" id="YA4-di-AYj">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="sVq-ih-7DM" style="IBUITableViewCellStyleDefault" id="YA4-di-AYj">
                                         <rect key="frame" x="0.0" y="255.33333333333334" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YA4-di-AYj" id="Rot-Y0-TuM">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sVq-ih-7DM">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Select Unit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sVq-ih-7DM">
                                                     <rect key="frame" x="16" y="0.0" width="343" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <gestureRecognizers/>
@@ -359,7 +359,7 @@
                             <outlet property="delegate" destination="QAO-KB-SnS" id="QKt-ex-o3r"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="O9L-yY-GQe">
+                    <navigationItem key="navigationItem" title="New Ingredient" id="O9L-yY-GQe">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="7UI-Fn-9aE">
                             <connections>
                                 <segue destination="7Lk-9i-IjZ" kind="unwind" unwindAction="unwindFromNewIngredientWithSegue:" id="hNy-PB-w4C"/>
@@ -386,10 +386,10 @@
             </objects>
             <point key="canvasLocation" x="3462" y="-1091"/>
         </scene>
-        <!--Table View Controller-->
+        <!--New Loaf-->
         <scene sceneID="ZWk-AT-SV9">
             <objects>
-                <tableViewController id="UiQ-bO-qbu" sceneMemberID="viewController">
+                <tableViewController title="New Loaf" id="UiQ-bO-qbu" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="mIC-HH-ZhJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -526,7 +526,7 @@
             </objects>
             <point key="canvasLocation" x="1306" y="-1340"/>
         </scene>
-        <!--Title-->
+        <!--Recipe Search-->
         <scene sceneID="XWL-G5-WZm">
             <objects>
                 <tableViewController storyboardIdentifier="RecipeListTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iaD-d5-4up" customClass="RecipeListTableViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
@@ -535,7 +535,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="EXU-tJ-xWL" style="IBUITableViewCellStyleDefault" id="u9L-JT-6a2">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recipeResult" textLabel="EXU-tJ-xWL" style="IBUITableViewCellStyleDefault" id="u9L-JT-6a2">
                                 <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="u9L-JT-6a2" id="4vA-zy-zB1">
@@ -562,7 +562,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Title" id="vP1-85-qTT">
+                    <navigationItem key="navigationItem" title="Recipe Search" id="vP1-85-qTT">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fCM-5M-uTO">
                             <connections>
                                 <segue destination="NpN-DI-hpT" kind="show" id="zeK-I1-adG"/>
@@ -584,11 +584,11 @@
                         <viewControllerLayoutGuide type="bottom" id="pZu-8m-hfa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1pO-sz-Jin">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="h3Y-i2-9zS">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="h3Y-i2-9zS">
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="detailCell" textLabel="nmH-Zu-bDL" style="IBUITableViewCellStyleDefault" id="Aa6-aX-8lc">
@@ -622,7 +622,6 @@
                             <constraint firstAttribute="bottom" secondItem="h3Y-i2-9zS" secondAttribute="bottom" id="AVQ-Vk-OJv"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="tableView" destination="h3Y-i2-9zS" id="ahe-dw-TFu"/>
                     </connections>
@@ -652,7 +651,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="MRN-Nw-jDJ"/>
-        <segue reference="UQe-c8-GJK"/>
-        <segue reference="zBo-DG-YAS"/>
+        <segue reference="sjC-N1-uHI"/>
+        <segue reference="zeK-I1-adG"/>
     </inferredMetricsTieBreakers>
 </document>

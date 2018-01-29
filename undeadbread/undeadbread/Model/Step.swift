@@ -9,7 +9,6 @@
 import Foundation
 
 struct Step: Codable {
-    static let massFormatter = MassFormatter()
     var instructions: String = ""
     var rations: [Ration] = []
     

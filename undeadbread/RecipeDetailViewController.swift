@@ -29,8 +29,8 @@ class RecipeDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
+
+        title = recipe.name
 
         // Do any additional setup after loading the view.
     }

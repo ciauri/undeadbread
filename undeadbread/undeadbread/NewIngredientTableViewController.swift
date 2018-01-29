@@ -13,6 +13,7 @@ protocol IngredientModifiedDelegate: class {
 }
 
 class NewIngredientTableViewController: UITableViewController {
+    // MARK: - Injections
     var existingRation: Ration?
     weak var delegate: IngredientModifiedDelegate?
 
@@ -32,6 +33,7 @@ class NewIngredientTableViewController: UITableViewController {
         unitPickerView.showsSelectionIndicator = true
         field.inputView = unitPickerView
         view.addSubview(field)
+        pickerView(unitPickerView, didSelectRow: 0, inComponent: 0)
         return field
     }()
     
@@ -51,6 +53,7 @@ class NewIngredientTableViewController: UITableViewController {
             }
         }
     }
+    
     private var currentMeasurement: Measurement<Unit>? {
         guard let amountText = amountTextField.text,
             let floatAmount = Double(amountText),
@@ -68,16 +71,40 @@ class NewIngredientTableViewController: UITableViewController {
         return Ration(amount: measurement, ingredient: Ingredient(name: name, recipe: nil))
     }
     
+    // MARK: - Search
+    
+    lazy var resultsTableViewController: BaseResultsTableViewController = {
+        let controller = BaseResultsTableViewController()
+        controller.tableView.delegate = self
+        return controller
+    }()
+    
+    lazy var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: resultsTableViewController)
+        controller.searchResultsUpdater = self
+        controller.delegate = self
+        controller.dimsBackgroundDuringPresentation = false
+        controller.searchBar.delegate = self
+        controller.searchBar.sizeToFit()
+        return controller
+    }()
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
+        
         if let existingRation = existingRation {
+            title = NSLocalizedString("Edit Ingredient", comment: "Edit ingredient title")
             navigationItem.rightBarButtonItem = nil
             nameTextField.text = existingRation.ingredient.name
             amountTextField.text = String(existingRation.amount.value)
             currentUnit = (existingRation.amount.unit as! Dimension)
             if let index = measurements.index(of: currentUnit!) {
-                (self.dummyTextField.inputView as? UIPickerView)?.selectRow(index, inComponent: 0, animated: false)
+                (dummyTextField.inputView as? UIPickerView)?.selectRow(index, inComponent: 0, animated: false)
             }
         }
     }
@@ -115,5 +142,57 @@ extension NewIngredientTableViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         currentUnit = measurements[row]
+    }
+}
+
+// MARK: - Search
+
+extension NewIngredientTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == self.tableView {
+            // nobody cares
+        } else {
+            let ingredient = resultsTableViewController.filteredResults[indexPath.row]
+            nameTextField.text = ingredient.description
+            searchController.isActive = false
+        }
+    }
+}
+
+extension NewIngredientTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let resultController = searchController.searchResultsController as? BaseResultsTableViewController {
+            // TODO: Real results
+            resultController.filteredResults = [Ingredient(name: "Water", recipe: nil)]
+            resultController.tableView.reloadData()
+        }
+    }
+}
+
+extension NewIngredientTableViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+}
+
+extension NewIngredientTableViewController: UISearchControllerDelegate {
+    func presentSearchController(_ searchController: UISearchController) {
+        //debugPrint("UISearchControllerDelegate invoked method: \(__FUNCTION__).")
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        //debugPrint("UISearchControllerDelegate invoked method: \(__FUNCTION__).")
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        //debugPrint("UISearchControllerDelegate invoked method: \(__FUNCTION__).")
+    }
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        //debugPrint("UISearchControllerDelegate invoked method: \(__FUNCTION__).")
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        //debugPrint("UISearchControllerDelegate invoked method: \(__FUNCTION__).")
     }
 }
