@@ -109,15 +109,16 @@ class NewRecipeTableViewController: UITableViewController {
     // MARK: - TableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let numberOfRows = self.tableView.numberOfRows(inSection: indexPath.section)
         if let section = Section(rawValue: indexPath.section) {
             switch section {
             case .ingredients:
-                if (indexPath.row == numberOfRows - 1) {
+                if indexPath.row == tableView.lastRowInSection(section: indexPath.section) {
                     performSegue(withIdentifier: "ingredientUnits", sender: self)
                 }
             case .steps:
-                performSegue(withIdentifier: "stepsEditor", sender: self)
+                if indexPath.row == tableView.lastRowInSection(section: indexPath.section) {
+                    performSegue(withIdentifier: "stepsEditor", sender: self)
+                }
             default:
                 break;
             }

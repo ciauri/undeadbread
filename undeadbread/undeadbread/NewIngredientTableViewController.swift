@@ -74,7 +74,7 @@ class NewIngredientTableViewController: UITableViewController {
     // MARK: - Search
     
     lazy var resultsTableViewController: BaseResultsTableViewController = {
-        let controller = BaseResultsTableViewController()
+        let controller = BaseResultsTableViewController(style: .grouped)
         controller.tableView.delegate = self
         return controller
     }()

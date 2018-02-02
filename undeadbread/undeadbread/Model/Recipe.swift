@@ -11,11 +11,10 @@ import Foundation
 struct Recipe: Codable {
     var name: String
     var ingredients: [Ingredient] = []
-    var steps: [Step] = []
     var sections: [Section] = []
     
     struct Section: Codable {
         let title: String
-        let numberOfRows: Int
+        var steps: [Step]
     }
 }

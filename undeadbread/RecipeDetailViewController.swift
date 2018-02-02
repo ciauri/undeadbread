@@ -38,7 +38,7 @@ class RecipeDetailViewController: UIViewController {
 
 extension RecipeDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2 + recipe.sections.count
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,7 +47,7 @@ extension RecipeDetailViewController: UITableViewDataSource {
             case .ingredients:
                 return recipe.ingredients.count
             case .steps:
-                return recipe.sections[section-1].numberOfRows
+                return recipe.sections.map({$0.steps.count}).reduce(0, +)
             }
         } else {
             return 0
@@ -62,7 +62,8 @@ extension RecipeDetailViewController: UITableViewDataSource {
                 let ingredient = recipe.ingredients[indexPath.row]
                 cell.textLabel?.text = "- \(ingredient)"
             case .steps:
-                let step = recipe.steps[indexPath.row]
+                let steps: [Step] = recipe.sections.map({$0.steps}).reduce([], +)
+                let step = steps[indexPath.row]
                 cell.textLabel?.text = "\(step)"
             }
         }

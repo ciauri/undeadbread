@@ -22,9 +22,8 @@ class ViewController: UIViewController {
         let step1 = Step(instructions: "Pour the %@ into the bowl", rations: [Ration(amount: Measurement(value: 100, unit: UnitMass.grams), ingredient: water)])
         let step2 = Step(instructions: "???", rations: [])
         let step3 = Step(instructions: "profit", rations: [])
-        let section1 = Recipe.Section(title: "The only section", numberOfRows: 3)
-
-        let recipe = Recipe(name: "Tartine Sourdough", ingredients: [water], steps: [step1, step2, step3], sections: [section1])
+        let section1 = Recipe.Section(title: "The only section", steps: [step1, step2, step3])
+        let recipe = Recipe(name: "Tartine Sourdough", ingredients: [water], sections: [section1])
         
         recipes = [recipe]
     }
@@ -57,7 +56,7 @@ extension ViewController: UITableViewDataSource {
         let detailCell = tableView.dequeueReusableCell(withIdentifier: "recipe", for: indexPath)
         let recipe = recipes[indexPath.row]
         detailCell.textLabel?.text = recipe.name
-        detailCell.detailTextLabel?.text = "\(recipe.steps.count) steps"
+        detailCell.detailTextLabel?.text = "\(recipe.sections.map({$0.steps.count}).reduce(0, +)) steps"
         return detailCell
     }
 }
