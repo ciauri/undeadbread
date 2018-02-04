@@ -10,7 +10,7 @@ import UIKit
 
 class NewStepsTableViewController: UITableViewController {
     
-    var sections: [Recipe.Section] = [Recipe.Section(title: "Test Section", steps: [Step(instructions: "", rations: [])])]
+    var sections: [Recipe.Section] = [Recipe.Section(title: "", steps: [Step(instructions: "", rations: [])])]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +64,7 @@ class NewStepsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
+        return sections[section].title != "" ? sections[section].title : NSLocalizedString("New Section", comment: "New section placeholder")
     }
     
     func presentActionSheet(from indexPath: IndexPath) {
@@ -72,20 +72,24 @@ class NewStepsTableViewController: UITableViewController {
 
         let stepAction = UIAlertAction(title: NSLocalizedString("Step", comment: "A step in a recipe"), style: .default) {[weak self] (action) in
             if let `self` = self {
-                self.sections[indexPath.section].steps.append(Step(instructions: "New step", rations: []))
+                self.sections[indexPath.section].steps.append(Step(instructions: "", rations: []))
                 self.tableView.beginUpdates()
                 self.tableView.insertRows(at: [indexPath], with: .automatic)
                 self.tableView.endUpdates()
+                let cell = self.tableView.cellForRow(at: indexPath) as! TextViewTableViewCell
+                cell.textView.becomeFirstResponder()
             }
         }
         
         let photoAction = UIAlertAction(title: NSLocalizedString("Photo", comment: "A photograph of the step in a recipe"), style: .default, handler: nil)
         let sectionAction = UIAlertAction(title: NSLocalizedString("Section", comment: "A section in a list of recipe steps"), style: .default) {[weak self] (action) in
             if let `self` = self {
-                self.sections.insert(Recipe.Section(title: "Test Section", steps: [Step(instructions: "", rations: [])]), at: indexPath.section + 1)
-                self.tableView.beginUpdates()
-                self.tableView.insertSections([indexPath.section + 1], with: .automatic)
-                self.tableView.endUpdates()
+                self.sections.insert(Recipe.Section(title: "", steps: [Step(instructions: "", rations: [])]), at: indexPath.section + 1)
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.insertSections([indexPath.section + 1], with: .automatic)
+                    self.tableView.endUpdates()
+                }
             }
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .cancel, handler: nil)
@@ -144,8 +148,10 @@ class NewStepsTableViewController: UITableViewController {
 
 extension NewStepsTableViewController: TextViewTableViewCellDelegate {
     func textViewHeightDidChange(in cell: UITableViewCell) {
-        tableView.beginUpdates()
-        tableView.endUpdates()
+        UIView.performWithoutAnimation {
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
     }
     
     func textViewDidChange(textView: UITextView, in cell: UITableViewCell) {

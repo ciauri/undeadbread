@@ -19,7 +19,24 @@ class NewRecipeTableViewController: UITableViewController {
             }
         }
     }
-    lazy private var steps: [Step] = []
+    private var stepSections: [Recipe.Section] = [] {
+        didSet {
+            var rowIndex = 0
+            for (sectionIndex, stepSection) in stepSections.enumerated() {
+                stepSectionMap[rowIndex] = sectionIndex
+                rowIndex += 1
+                for _ in stepSection.steps {
+                    stepSectionMap[rowIndex] = sectionIndex
+                    rowIndex += 1
+                }
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadSections([Section.steps.rawValue], with: .automatic)
+            }
+        }
+    }
+    
+    private var stepSectionMap: [Int: Int] = [:]
     
     private enum Section: Int {
         case name
@@ -53,6 +70,7 @@ class NewRecipeTableViewController: UITableViewController {
     }
 
 
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -67,7 +85,7 @@ class NewRecipeTableViewController: UITableViewController {
             case .ingredients:
                 return ingredients.count + 1
             case .steps:
-                return steps.count + 1
+                return stepSections.map({$0.steps.count + 1}).reduce(0, +) + 1
             }
         } else {
             return 0
@@ -95,7 +113,31 @@ class NewRecipeTableViewController: UITableViewController {
                     return cell
                 }
             case .steps:
-                return tableView.dequeueReusableCell(withIdentifier: "plusCell", for: indexPath)
+                if indexPath.row == tableView.lastRowInSection(section: indexPath.section) {
+                    return tableView.dequeueReusableCell(withIdentifier: "plusCell", for: indexPath)
+                } else if let sectionIndex = stepSectionMap[indexPath.row] {
+                    var rowsInPreviousSections = 0
+                    for index in 0..<sectionIndex {
+                        rowsInPreviousSections += 1
+                        for _ in stepSections[index].steps {
+                            rowsInPreviousSections += 1
+                        }
+                    }
+                    let currentSectionRowIndex = indexPath.row - rowsInPreviousSections
+                    let stepSection = stepSections[sectionIndex]
+                    if currentSectionRowIndex == 0 {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "sectionTitleCell", for: indexPath)
+                        cell.textLabel?.text = stepSection.title
+                        return cell
+                    } else {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath)
+                        let stepIndex = currentSectionRowIndex - 1
+                        cell.textLabel?.text = "\(stepIndex + 1). \(stepSection.steps[stepIndex].instructions)"
+                        return cell
+                    }
+                } else {
+                    return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+                }
             }
         } else {
             return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
@@ -187,6 +229,13 @@ extension NewRecipeTableViewController {
                 return
         }
         ingredients.append(ingredient)
+    }
+    
+    @IBAction func unwindFromStepsEditor(segue: UIStoryboardSegue) {
+        guard let source = segue.source as? NewStepsTableViewController else {
+            return
+        }
+        stepSections = source.sections
     }
 }
 
