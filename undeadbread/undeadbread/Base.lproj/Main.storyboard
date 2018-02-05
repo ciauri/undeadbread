@@ -15,7 +15,7 @@
         <!--UndeadBread-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="RecipeListViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -123,6 +123,7 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="MhS-Es-7yV" secondAttribute="bottom" id="6cN-Xs-Iba"/>
                             <constraint firstItem="MhS-Es-7yV" firstAttribute="leading" secondItem="glm-M0-zlo" secondAttribute="leading" id="Ga6-Gl-ClO"/>
+                            <constraint firstItem="nG5-fW-INb" firstAttribute="leading" secondItem="MhS-Es-7yV" secondAttribute="trailing" id="LZs-4P-3qK"/>
                             <constraint firstItem="MhS-Es-7yV" firstAttribute="top" secondItem="qog-Lb-Yof" secondAttribute="bottom" id="MKL-e9-5Pe"/>
                             <constraint firstItem="MhS-Es-7yV" firstAttribute="width" secondItem="glm-M0-zlo" secondAttribute="width" multiplier="0.5" id="PaC-gI-JUd"/>
                             <constraint firstItem="nG5-fW-INb" firstAttribute="width" secondItem="glm-M0-zlo" secondAttribute="width" multiplier="0.5" id="T2A-DK-E6p"/>
@@ -256,15 +257,15 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sectionTitleCell" textLabel="T3i-NV-stg" style="IBUITableViewCellStyleDefault" id="sZ0-pz-HJG" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="sectionTitleCell" textLabel="T3i-NV-stg" style="IBUITableViewCellStyleDefault" id="sZ0-pz-HJG" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="275.33333333333337" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sZ0-pz-HJG" id="4gf-NG-H1e">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Section Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T3i-NV-stg">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.666666666666664"/>
+                                            <rect key="frame" x="16" y="0.0" width="324" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
                                             <nil key="textColor"/>
@@ -273,7 +274,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationLevel="1" indentationWidth="10" reuseIdentifier="stepCell" textLabel="Q34-Xj-nDm" style="IBUITableViewCellStyleDefault" id="AXO-ot-jO7" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationLevel="1" indentationWidth="10" reuseIdentifier="stepCell" textLabel="Q34-Xj-nDm" style="IBUITableViewCellStyleDefault" id="AXO-ot-jO7" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="319.33333333333337" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AXO-ot-jO7" id="cbS-K0-w56">
@@ -296,12 +297,19 @@
                             <outlet property="delegate" destination="NpN-DI-hpT" id="wjL-MX-ogk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="New Recipe" largeTitleDisplayMode="always" id="l5W-TJ-b1Y"/>
+                    <navigationItem key="navigationItem" title="New Recipe" largeTitleDisplayMode="always" id="l5W-TJ-b1Y">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="tET-fr-ItR">
+                            <connections>
+                                <segue destination="Fim-Zi-S3c" kind="unwind" unwindAction="unwindFromNewRecipeViewControllerWithSegue:" id="zkE-O9-ihH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="5a7-UW-aKa" kind="show" identifier="stepsEditor" id="OPc-a6-Tsi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rbo-YV-PYG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Fim-Zi-S3c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1304.8" y="-599.26108374384239"/>
         </scene>
@@ -428,12 +436,12 @@
         <scene sceneID="pdl-8h-gDK">
             <objects>
                 <tableViewController id="5a7-UW-aKa" customClass="NewStepsTableViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" id="bMM-8B-tJe">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" id="bMM-8B-tJe">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="textFieldCell" id="cnu-To-xjm" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="textFieldCell" id="cnu-To-xjm" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cnu-To-xjm" id="MNd-cL-0id">
@@ -458,7 +466,7 @@
                                     <outlet property="textField" destination="8zj-X6-4Xm" id="NAo-Ac-DMA"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="textViewCell" id="0ud-AD-fqK" customClass="TextViewTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="textViewCell" id="0ud-AD-fqK" customClass="TextViewTableViewCell" customModule="undeadbread" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="99.333333333333343" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0ud-AD-fqK" id="aAB-a8-DQY">
@@ -497,7 +505,7 @@
                                     <outlet property="textView" destination="n59-ND-Q39" id="d0i-uB-hlz"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="plusCell" textLabel="p40-us-hwb" style="IBUITableViewCellStyleDefault" id="Jjf-AZ-o2z">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="plusCell" textLabel="p40-us-hwb" style="IBUITableViewCellStyleDefault" id="Jjf-AZ-o2z">
                                 <rect key="frame" x="0.0" y="143.33333333333334" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jjf-AZ-o2z" id="Kph-f3-5fW">

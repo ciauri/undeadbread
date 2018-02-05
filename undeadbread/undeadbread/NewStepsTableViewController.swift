@@ -10,18 +10,21 @@ import UIKit
 
 class NewStepsTableViewController: UITableViewController {
     
+    var editingSectionIndex: Int?
     var sections: [Recipe.Section] = [Recipe.Section(title: "", steps: [Step(instructions: "", rations: [])])]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        tableView.setEditing(true, animated: false)
+        if let sectionToEdit = editingSectionIndex {
+            title = NSLocalizedString("Edit Steps", comment: "Title for page where recipe steps are edited")
+            DispatchQueue.main.async {[tableView] in
+                let targetIndexPath = IndexPath(row: 0, section: sectionToEdit)
+                tableView?.scrollToRow(at: targetIndexPath, at: .top, animated: false)
+                let cell = tableView?.cellForRow(at: targetIndexPath) as! TextFieldTableViewCell
+                cell.textField.becomeFirstResponder()
+            }
+        }
     }
 
 
@@ -29,9 +32,9 @@ class NewStepsTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return sections[section].steps.count + 2
+        return sections[section].steps.count + 2
     }
 
     
@@ -73,11 +76,13 @@ class NewStepsTableViewController: UITableViewController {
         let stepAction = UIAlertAction(title: NSLocalizedString("Step", comment: "A step in a recipe"), style: .default) {[weak self] (action) in
             if let `self` = self {
                 self.sections[indexPath.section].steps.append(Step(instructions: "", rations: []))
-                self.tableView.beginUpdates()
-                self.tableView.insertRows(at: [indexPath], with: .automatic)
-                self.tableView.endUpdates()
-                let cell = self.tableView.cellForRow(at: indexPath) as! TextViewTableViewCell
-                cell.textView.becomeFirstResponder()
+                self.tableView.performBatchUpdates({
+                    self.tableView.insertRows(at: [indexPath], with: .automatic)
+                }, completion: { (_) in
+                    self.tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+                    let cell = self.tableView.cellForRow(at: indexPath) as? TextViewTableViewCell
+                    cell?.textView.becomeFirstResponder()
+                })
             }
         }
         
@@ -85,11 +90,14 @@ class NewStepsTableViewController: UITableViewController {
         let sectionAction = UIAlertAction(title: NSLocalizedString("Section", comment: "A section in a list of recipe steps"), style: .default) {[weak self] (action) in
             if let `self` = self {
                 self.sections.insert(Recipe.Section(title: "", steps: [Step(instructions: "", rations: [])]), at: indexPath.section + 1)
-                DispatchQueue.main.async {
-                    self.tableView.beginUpdates()
-                    self.tableView.insertSections([indexPath.section + 1], with: .automatic)
-                    self.tableView.endUpdates()
-                }
+                let newSection = indexPath.section + 1
+                self.tableView.performBatchUpdates({
+                    self.tableView.insertSections([newSection], with: .automatic)
+                }, completion: { (_) in
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: newSection), at: .middle, animated: false)
+                    let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: newSection)) as? TextFieldTableViewCell
+                    cell?.textField.becomeFirstResponder()
+                })
             }
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .cancel, handler: nil)
@@ -99,40 +107,59 @@ class NewStepsTableViewController: UITableViewController {
     
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+        return indexPath.row != 0 && indexPath.row != tableView.lastRowInSection(section: indexPath.section)
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            sections[indexPath.section].steps.remove(at: indexPath.row - 1)
+            tableView.performBatchUpdates({
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }, completion: { _ in
+                tableView.reloadSections([indexPath.section], with: .automatic)
+            })
         } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            sections[indexPath.section].steps.insert(Step(instructions: "", rations: []), at: indexPath.row)
+            tableView.insertRows(at: [indexPath], with: .automatic)
+        }
     }
-    */
-
-    /*
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
+    }
+    
+    override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        let lastRow = tableView.lastRowInSection(section: proposedDestinationIndexPath.section)
+        guard proposedDestinationIndexPath.row != 0 &&
+        (proposedDestinationIndexPath.section != sourceIndexPath.section ? proposedDestinationIndexPath.row <= lastRow : proposedDestinationIndexPath.row < lastRow) else {
+            return sourceIndexPath
+        }
+        return proposedDestinationIndexPath
+    }
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+        let step = sections[fromIndexPath.section].steps.remove(at: fromIndexPath.row - 1)
+        sections[to.section].steps.insert(step, at: to.row - 1)
+        DispatchQueue.main.async {
+            tableView.reloadSections([fromIndexPath.section, to.section], with: .none)
+        }
     }
-    */
 
-    /*
+    
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+        return indexPath.row != 0 && indexPath.row != tableView.lastRowInSection(section: indexPath.section)
     }
-    */
+ 
 
     /*
     // MARK: - Navigation
@@ -156,7 +183,7 @@ extension NewStepsTableViewController: TextViewTableViewCellDelegate {
     
     func textViewDidChange(textView: UITextView, in cell: UITableViewCell) {
         if let indexPath = tableView.indexPath(for: cell) {
-            let step = Step(instructions: textView.text, rations: [])
+            let step = Step(instructions: textView.text.trimmingCharacters(in: .whitespacesAndNewlines), rations: [])
             sections[indexPath.section].steps[indexPath.row - 1] = step
         }
     }
@@ -165,7 +192,7 @@ extension NewStepsTableViewController: TextViewTableViewCellDelegate {
 extension NewStepsTableViewController: TextFieldTableViewCellDelegate {
     func textFieldDidChange(text: String, in cell: UITableViewCell) {
         if let indexPath = tableView.indexPath(for: cell) {
-            let section = Recipe.Section(title: text, steps: sections[indexPath.section].steps)
+            let section = Recipe.Section(title: text.trimmingCharacters(in: .whitespacesAndNewlines), steps: sections[indexPath.section].steps)
             sections[indexPath.section] = section
         }
     }

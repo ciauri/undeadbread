@@ -11,6 +11,16 @@ import UIKit
 
 
 class NewRecipeTableViewController: UITableViewController {
+    
+    var recipe: Recipe? {
+        guard name.count > 0,
+            ingredients.count > 0,
+            stepSections.count > 0 else {
+                return nil
+        }
+        return Recipe(name: name, ingredients: ingredients.map({$0.ingredient}), sections: stepSections)
+    }
+    
     lazy private var name: String = ""
     private var ingredients: [Ration] = [] {
         didSet {
@@ -19,6 +29,7 @@ class NewRecipeTableViewController: UITableViewController {
             }
         }
     }
+    
     private var stepSections: [Recipe.Section] = [] {
         didSet {
             var rowIndex = 0
@@ -59,18 +70,6 @@ class NewRecipeTableViewController: UITableViewController {
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
-
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -85,7 +84,11 @@ class NewRecipeTableViewController: UITableViewController {
             case .ingredients:
                 return ingredients.count + 1
             case .steps:
-                return stepSections.map({$0.steps.count + 1}).reduce(0, +) + 1
+                if stepSections.count == 0 {
+                    return stepSections.map({$0.steps.count + 1}).reduce(0, +) + 1
+                } else {
+                    return stepSections.map({$0.steps.count + 1}).reduce(0, +)
+                }
             }
         } else {
             return 0
@@ -99,10 +102,11 @@ class NewRecipeTableViewController: UITableViewController {
             case .name:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! TextFieldTableViewCell
                 cell.textField.text = name
+                cell.textField.delegate = cell
+                cell.delegate = self
                 return cell
             case .ingredients:
-                let totalRows = tableView.numberOfRows(inSection: indexPath.section)
-                if indexPath.row == totalRows - 1 {
+                if indexPath.row == tableView.lastRowInSection(section: indexPath.section) {
                     // Last cell in section
                     return tableView.dequeueReusableCell(withIdentifier: "plusCell", for: indexPath)
                 } else {
@@ -113,17 +117,10 @@ class NewRecipeTableViewController: UITableViewController {
                     return cell
                 }
             case .steps:
-                if indexPath.row == tableView.lastRowInSection(section: indexPath.section) {
+                if stepSections.count == 0 {
                     return tableView.dequeueReusableCell(withIdentifier: "plusCell", for: indexPath)
                 } else if let sectionIndex = stepSectionMap[indexPath.row] {
-                    var rowsInPreviousSections = 0
-                    for index in 0..<sectionIndex {
-                        rowsInPreviousSections += 1
-                        for _ in stepSections[index].steps {
-                            rowsInPreviousSections += 1
-                        }
-                    }
-                    let currentSectionRowIndex = indexPath.row - rowsInPreviousSections
+                    let currentSectionRowIndex = rowForSection(index: sectionIndex, withRow: indexPath.row)
                     let stepSection = stepSections[sectionIndex]
                     if currentSectionRowIndex == 0 {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "sectionTitleCell", for: indexPath)
@@ -158,8 +155,12 @@ class NewRecipeTableViewController: UITableViewController {
                     performSegue(withIdentifier: "ingredientUnits", sender: self)
                 }
             case .steps:
-                if indexPath.row == tableView.lastRowInSection(section: indexPath.section) {
+                if stepSections.count == 0 {
                     performSegue(withIdentifier: "stepsEditor", sender: self)
+                } else if let sectionIndex = stepSectionMap[indexPath.row],
+                    rowForSection(index: sectionIndex, withRow: indexPath.row) == 0 {
+                    // Section title tapped
+                    performSegue(withIdentifier: "stepsEditor", sender: stepSections)
                 }
             default:
                 break;
@@ -167,45 +168,21 @@ class NewRecipeTableViewController: UITableViewController {
         }
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    // MARK: - Helpers
+    
+    func rowForSection(index sectionIndex: Int, withRow row: Int) -> Int {
+        var rowsInPreviousSections = 0
+        for index in 0..<sectionIndex {
+            rowsInPreviousSections += 1
+            for _ in stepSections[index].steps {
+                rowsInPreviousSections += 1
+            }
+        }
+        return row - rowsInPreviousSections
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ingredientUnits",
             let selectedRow = tableView.indexPathForSelectedRow,
@@ -214,13 +191,19 @@ class NewRecipeTableViewController: UITableViewController {
             let destination = segue.destination as? NewIngredientTableViewController {
             destination.existingRation = ingredients[selectedRow.row]
             destination.delegate = self
+        } else if segue.identifier == "stepsEditor",
+            let destination = segue.destination as? NewStepsTableViewController,
+            let sections = sender as? [Recipe.Section],
+            let selectedIndexPath = tableView.indexPathForSelectedRow,
+            let sectionIndex = stepSectionMap[selectedIndexPath.row] {
+            destination.sections = sections
+            destination.editingSectionIndex = sectionIndex
         }
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
 }
 
 // MARK: - Segue
+
 extension NewRecipeTableViewController {
     @IBAction func unwindFromNewIngredient(segue: UIStoryboardSegue) {
         guard let source = segue.source as? NewIngredientTableViewController,
@@ -236,6 +219,15 @@ extension NewRecipeTableViewController {
             return
         }
         stepSections = source.sections
+    }
+}
+
+extension NewRecipeTableViewController: TextFieldTableViewCellDelegate {
+    func textFieldDidChange(text: String, in cell: UITableViewCell) {
+        if let indexPath = tableView.indexPath(for: cell),
+            indexPath.section == Section.name.rawValue {
+            name = text
+        }
     }
 }
 
