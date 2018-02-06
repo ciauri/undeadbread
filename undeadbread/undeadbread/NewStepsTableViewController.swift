@@ -61,13 +61,7 @@ class NewStepsTableViewController: UITableViewController {
             return cell
         }
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == tableView.lastRowInSection(section: indexPath.section) {
-            presentActionSheet(from: indexPath)
-        }
-    }
-    
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section].title != "" ? sections[section].title : NSLocalizedString("New Section", comment: "New section placeholder")
     }
@@ -94,8 +88,9 @@ class NewStepsTableViewController: UITableViewController {
     
     func appendStepAfter(indexPath: IndexPath) {
         sections[indexPath.section].steps.append(Step(instructions: "", rations: []))
+        let newIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
         tableView.performBatchUpdates({
-            tableView.insertRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
         }, completion: { (_) in
             self.tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
             let cell = self.tableView.cellForRow(at: indexPath) as? TextViewTableViewCell
@@ -230,7 +225,8 @@ extension NewStepsTableViewController: StepEditorToolbarTableViewCellDelegate {
     
     func composeButtonPressed(in cell: UITableViewCell) {
         if let indexPath = tableView.indexPath(for: cell) {
-            appendStepAfter(indexPath: indexPath)
+            let newIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+            appendStepAfter(indexPath: newIndexPath)
         }
     }
 }
