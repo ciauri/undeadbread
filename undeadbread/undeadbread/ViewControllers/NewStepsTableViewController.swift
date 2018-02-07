@@ -11,7 +11,17 @@ import UIKit
 class NewStepsTableViewController: UITableViewController {
     
     var editingSectionIndex: Int?
-    var sections: [Recipe.Section] = [Recipe.Section(title: "", steps: [Step(instructions: "", rations: [])])]
+    var sections: [Recipe.Section] = [Recipe.Section(title: "", steps: [Step(instructions: "", rations: [], imageURL: nil)])]
+    
+    private var indexPathForImageSelection: IndexPath?
+    
+    lazy private var imagePickerController: UIImagePickerController = {
+        let controller = UIImagePickerController()
+        controller.delegate = self
+        controller.sourceType = .photoLibrary
+        controller.modalPresentationStyle = .popover
+        return controller
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,12 +63,22 @@ class NewStepsTableViewController: UITableViewController {
             return cell
         } else {
             let step = section.steps[indexPath.row - 1]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! TextViewTableViewCell
-            cell.numberingLabel.text = "\(indexPath.row)."
-            cell.textView.text = step.instructions
-            cell.textView.delegate = cell
-            cell.delegate = self
-            return cell
+            if let url = step.imageURL {
+                guard let data = try? Data(contentsOf: url, options: []),
+                    let image = UIImage(data: data) else {
+                        return UITableViewCell()
+                }
+                let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! SquareImageTableViewCell
+                cell.squareImageView?.image = image
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! TextViewTableViewCell
+                cell.numberingLabel.text = "\(indexPath.row)."
+                cell.textView.text = step.instructions
+                cell.textView.delegate = cell
+                cell.delegate = self
+                return cell
+            }
         }
     }
 
@@ -87,7 +107,7 @@ class NewStepsTableViewController: UITableViewController {
     }
     
     func appendStepAfter(indexPath: IndexPath) {
-        sections[indexPath.section].steps.append(Step(instructions: "", rations: []))
+        sections[indexPath.section].steps.append(Step(instructions: "", rations: [], imageURL: nil))
         let newIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
         tableView.performBatchUpdates({
             tableView.insertRows(at: [newIndexPath], with: .automatic)
@@ -99,7 +119,7 @@ class NewStepsTableViewController: UITableViewController {
     }
     
     func appendSectionAfter(indexPath: IndexPath) {
-        sections.insert(Recipe.Section(title: "", steps: [Step(instructions: "", rations: [])]), at: indexPath.section + 1)
+        sections.insert(Recipe.Section(title: "", steps: [Step(instructions: "", rations: [], imageURL: nil)]), at: indexPath.section + 1)
         let newSection = indexPath.section + 1
         tableView.performBatchUpdates({
             tableView.insertSections([newSection], with: .automatic)
@@ -120,7 +140,7 @@ class NewStepsTableViewController: UITableViewController {
     func deleteRowAt(indexPath: IndexPath) {
         sections[indexPath.section].steps.remove(at: indexPath.row - 1)
         tableView.performBatchUpdates({
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }, completion: { [weak self] _ in
             self?.tableView.reloadSections([indexPath.section], with: .automatic)
         })
@@ -203,7 +223,7 @@ extension NewStepsTableViewController: TextViewTableViewCellDelegate {
     
     func textViewDidChange(textView: UITextView, in cell: UITableViewCell) {
         if let indexPath = tableView.indexPath(for: cell) {
-            let step = Step(instructions: textView.text.trimmingCharacters(in: .whitespacesAndNewlines), rations: [])
+            let step = Step(instructions: textView.text.trimmingCharacters(in: .whitespacesAndNewlines), rations: [], imageURL: nil)
             sections[indexPath.section].steps[indexPath.row - 1] = step
         }
     }
@@ -220,7 +240,10 @@ extension NewStepsTableViewController: TextFieldTableViewCellDelegate {
 
 extension NewStepsTableViewController: StepEditorToolbarTableViewCellDelegate {
     func cameraButtonPressed(in cell: UITableViewCell) {
-        // Open photo select/camera
+        if let indexPath = tableView.indexPath(for: cell) {
+            indexPathForImageSelection = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+            present(imagePickerController, animated: true, completion: nil)
+        }
     }
     
     func composeButtonPressed(in cell: UITableViewCell) {
@@ -231,4 +254,27 @@ extension NewStepsTableViewController: StepEditorToolbarTableViewCellDelegate {
     }
 }
 
+extension NewStepsTableViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let indexPath = indexPathForImageSelection,
+        let documentsURL = try? FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else {
+            return
+        }
+        
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let pathToSaveImage = documentsURL.appendingPathComponent("\(UUID().uuidString).jpg")
+        do {
+            try UIImageJPEGRepresentation(image, 0.5)?.write(to: pathToSaveImage, options: .atomic)
+            sections[indexPath.section].steps[indexPath.row - 1].imageURL = pathToSaveImage
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        } catch let error {
+            NSLog(error.localizedDescription)
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension NewStepsTableViewController: UINavigationControllerDelegate {
+    
+}
 

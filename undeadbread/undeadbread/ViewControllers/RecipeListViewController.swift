@@ -28,9 +28,9 @@ class RecipeListViewController: UIViewController {
             self.recipes = recipes
         } else {
             let water = Ingredient(name: "Water", recipe: nil)
-            let step1 = Step(instructions: "Pour the %@ into the bowl", rations: [Ration(amount: Measurement(value: 100, unit: UnitMass.grams), ingredient: water)])
-            let step2 = Step(instructions: "???", rations: [])
-            let step3 = Step(instructions: "profit", rations: [])
+            let step1 = Step(instructions: "Pour the %@ into the bowl", rations: [Ration(amount: Measurement(value: 100, unit: UnitMass.grams), ingredient: water)], imageURL: nil)
+            let step2 = Step(instructions: "???", rations: [], imageURL: nil)
+            let step3 = Step(instructions: "profit", rations: [], imageURL: nil)
             let section1 = Recipe.Section(title: "The only section", steps: [step1, step2, step3])
             let recipe = Recipe(name: "Tartine Sourdough", ingredients: [water], sections: [section1])
             

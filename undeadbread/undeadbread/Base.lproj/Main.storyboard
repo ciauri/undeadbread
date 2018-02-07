@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -539,6 +540,38 @@
                                         <constraint firstAttribute="bottom" secondItem="yV8-rj-v9U" secondAttribute="bottom" id="oCd-mY-pzC"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="photoCell" id="n9e-aC-GQK" customClass="SquareImageTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="187.33333333333334" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n9e-aC-GQK" id="JCc-eQ-Xk8">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bd0-EA-RtZ">
+                                            <rect key="frame" x="165.66666666666666" y="0.0" width="43.666666666666657" height="43.666666666666664"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lKJ-1q-v4s">
+                                                    <rect key="frame" x="0.0" y="0.0" width="43.666666666666664" height="43.666666666666664"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="bd0-EA-RtZ" secondAttribute="height" multiplier="1:1" id="YLn-Zt-5QS"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bd0-EA-RtZ" secondAttribute="trailing" id="3m4-QC-5lo"/>
+                                        <constraint firstAttribute="bottom" secondItem="bd0-EA-RtZ" secondAttribute="bottom" id="B3W-66-DYM"/>
+                                        <constraint firstItem="bd0-EA-RtZ" firstAttribute="top" secondItem="JCc-eQ-Xk8" secondAttribute="top" id="mYW-uN-MBa"/>
+                                        <constraint firstItem="bd0-EA-RtZ" firstAttribute="centerX" secondItem="JCc-eQ-Xk8" secondAttribute="centerX" id="u5f-Dh-qEJ"/>
+                                        <constraint firstItem="bd0-EA-RtZ" firstAttribute="width" secondItem="JCc-eQ-Xk8" secondAttribute="width" id="yAX-fp-Qt0"/>
+                                        <constraint firstItem="bd0-EA-RtZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JCc-eQ-Xk8" secondAttribute="leading" id="yrt-Ca-zjo"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="squareImageView" destination="lKJ-1q-v4s" id="jsy-bT-O45"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

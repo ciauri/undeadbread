@@ -32,6 +32,7 @@
 		9CD2E6401F4289F600F150C5 /* Loaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E63F1F4289F600F150C5 /* Loaf.swift */; };
 		9CD2E6421F428AD200F150C5 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E6411F428AD200F150C5 /* Rating.swift */; };
 		9CD2E6471F42983C00F150C5 /* RecipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E6461F42983C00F150C5 /* RecipeDetailViewController.swift */; };
+		9CF5CDE9202AA43B002A65F0 /* SquareImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5CDE8202AA43B002A65F0 /* SquareImageTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +83,8 @@
 		9CAD2C07200EFB8300BF46BF /* NewIngredientTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIngredientTableViewController.swift; sourceTree = "<group>"; };
 		9CD2E63F1F4289F600F150C5 /* Loaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loaf.swift; sourceTree = "<group>"; };
 		9CD2E6411F428AD200F150C5 /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
-		9CD2E6461F42983C00F150C5 /* RecipeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecipeDetailViewController.swift; path = ../RecipeDetailViewController.swift; sourceTree = "<group>"; };
+		9CD2E6461F42983C00F150C5 /* RecipeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewController.swift; sourceTree = "<group>"; };
+		9CF5CDE8202AA43B002A65F0 /* SquareImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareImageTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				9C09EEFC2023E87300D56D97 /* TextViewTableViewCell.swift */,
+				9CF5CDE8202AA43B002A65F0 /* SquareImageTableViewCell.swift */,
 				9C1F56A6200C1D7700983404 /* TextFieldTableViewCell.swift */,
 				9C6BBF4F202964C100A2353B /* StepEditorToolbarTableViewCell.swift */,
 			);
@@ -158,11 +161,11 @@
 		9C5B3C6C1F42845B00BBBE4A /* undeadbread */ = {
 			isa = PBXGroup;
 			children = (
-				9C5B3C6D1F42845B00BBBE4A /* AppDelegate.swift */,
-				9CD2E6431F42981100F150C5 /* Views */,
+				9CF5CDE7202A9A9B002A65F0 /* ViewControllers */,
+				9C09EF002023E8F900D56D97 /* Xibs */,
+				9C1F56AA200C1DA200983404 /* TableViewCells */,
 				9C5B3C9C1F42848900BBBE4A /* Model */,
 				9C09EEFB2023E68700D56D97 /* Helpers */,
-				9C5B3C711F42845B00BBBE4A /* Main.storyboard */,
 				9C5B3C9B1F42846700BBBE4A /* Supporting Files */,
 			);
 			path = undeadbread;
@@ -189,6 +192,8 @@
 		9C5B3C9B1F42846700BBBE4A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9C5B3C6D1F42845B00BBBE4A /* AppDelegate.swift */,
+				9C5B3C711F42845B00BBBE4A /* Main.storyboard */,
 				9C5B3C741F42845B00BBBE4A /* Assets.xcassets */,
 				9C5B3C761F42845B00BBBE4A /* LaunchScreen.storyboard */,
 				9C5B3C791F42845B00BBBE4A /* Info.plist */,
@@ -209,7 +214,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		9CD2E6431F42981100F150C5 /* Views */ = {
+		9CF5CDE7202A9A9B002A65F0 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				9C5B3C6F1F42845B00BBBE4A /* RecipeListViewController.swift */,
@@ -221,10 +226,8 @@
 				9C09EF012023E98700D56D97 /* NewStepsTableViewController.swift */,
 				9C755E3C201E924300B1228C /* IngredientResultsTableViewController.swift */,
 				9CD2E6461F42983C00F150C5 /* RecipeDetailViewController.swift */,
-				9C09EF002023E8F900D56D97 /* Xibs */,
-				9C1F56AA200C1DA200983404 /* TableViewCells */,
 			);
-			name = Views;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,6 +373,7 @@
 				9CD2E6471F42983C00F150C5 /* RecipeDetailViewController.swift in Sources */,
 				9C09EF022023E98700D56D97 /* NewStepsTableViewController.swift in Sources */,
 				9C755E41201E92DA00B1228C /* BaseResultsTableViewController.swift in Sources */,
+				9CF5CDE9202AA43B002A65F0 /* SquareImageTableViewCell.swift in Sources */,
 				9C1F56A5200C17D000983404 /* NewRecipeTableViewController.swift in Sources */,
 				9C1F56A7200C1D7700983404 /* TextFieldTableViewCell.swift in Sources */,
 				9C5B3CAA1F42848900BBBE4A /* Step.swift in Sources */,

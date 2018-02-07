@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
 struct Step: Codable {
     var instructions: String = ""
     var rations: [Ration] = []
-    
+    var imageURL: URL?
 }
 
 extension Step: CustomStringConvertible {
