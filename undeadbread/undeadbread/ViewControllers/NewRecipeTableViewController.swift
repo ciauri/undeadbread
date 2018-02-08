@@ -127,10 +127,21 @@ class NewRecipeTableViewController: UITableViewController {
                         cell.textLabel?.text = stepSection.title
                         return cell
                     } else {
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath)
                         let stepIndex = currentSectionRowIndex - 1
-                        cell.textLabel?.text = "\(stepIndex + 1). \(stepSection.steps[stepIndex].instructions)"
-                        return cell
+                        let step = stepSection.steps[stepIndex]
+                        if let url = step.imageURL {
+                            guard let data = try? Data(contentsOf: url, options: []),
+                                let image = UIImage(data: data) else {
+                                    return UITableViewCell()
+                            }
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! SquareImageTableViewCell
+                            cell.squareImageView?.image = image
+                            return cell
+                        } else {
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath)
+                            cell.textLabel?.text = "\(stepIndex + 1). \(stepSection.steps[stepIndex].instructions)"
+                            return cell
+                        }
                     }
                 } else {
                     return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
