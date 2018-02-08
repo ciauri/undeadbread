@@ -207,10 +207,12 @@ class NewStepsTableViewController: UITableViewController {
         DispatchQueue.main.async { [sections, weak self] in
             if sections[fromIndexPath.section].steps.count > 0 {
                 self?.updateNumbering(in: fromIndexPath.section)
+                self?.updateNumbering(in: to.section)
+
             } else {
+                self?.updateNumbering(in: to.section)
                 self?.deleteSectionAt(indexPath: fromIndexPath)
             }
-            self?.updateNumbering(in: to.section)
         }
     }
 
