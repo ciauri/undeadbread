@@ -112,8 +112,8 @@ class NewStepsTableViewController: UITableViewController {
         tableView.performBatchUpdates({
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }, completion: { (_) in
-            self.tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
-            let cell = self.tableView.cellForRow(at: indexPath) as? TextViewTableViewCell
+            self.tableView.scrollToRow(at: newIndexPath, at: .middle, animated: true)
+            let cell = self.tableView.cellForRow(at: newIndexPath) as? TextViewTableViewCell
             cell?.textView.becomeFirstResponder()
         })
     }
@@ -137,15 +137,23 @@ class NewStepsTableViewController: UITableViewController {
         }, completion: nil)
     }
     
-    func deleteRowAt(indexPath: IndexPath) {
+    func deleteStepAt(indexPath: IndexPath) {
         sections[indexPath.section].steps.remove(at: indexPath.row - 1)
         tableView.performBatchUpdates({
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }, completion: { [weak self] _ in
-            self?.tableView.reloadSections([indexPath.section], with: .automatic)
+            self?.updateNumbering(in: indexPath.section)
         })
     }
     
+    func updateNumbering(in section: Int) {
+        for (index, _) in sections[section].steps.enumerated() {
+            let indexPath = IndexPath(row: index + 1, section: section)
+            if let cell = tableView.cellForRow(at: indexPath) as? TextViewTableViewCell {
+                cell.numberingLabel.text = "\(index + 1). "
+            }
+        }
+    }
     
 
     
@@ -173,7 +181,7 @@ class NewStepsTableViewController: UITableViewController {
             if sections[indexPath.section].steps.count == 1 {
                 deleteSectionAt(indexPath: indexPath)
             } else {
-                deleteRowAt(indexPath: indexPath)
+                deleteStepAt(indexPath: indexPath)
             }
         } else if editingStyle == .insert {
             self.appendSectionAfter(indexPath: indexPath)
@@ -198,11 +206,11 @@ class NewStepsTableViewController: UITableViewController {
         sections[to.section].steps.insert(step, at: to.row - 1)
         DispatchQueue.main.async { [sections, weak self] in
             if sections[fromIndexPath.section].steps.count > 0 {
-                tableView.reloadSections([fromIndexPath.section, to.section], with: .none)
+                self?.updateNumbering(in: fromIndexPath.section)
             } else {
-                tableView.reloadSections([to.section], with: .none)
                 self?.deleteSectionAt(indexPath: fromIndexPath)
             }
+            self?.updateNumbering(in: to.section)
         }
     }
 

@@ -218,6 +218,17 @@ extension NewRecipeTableViewController {
         guard let source = segue.source as? NewStepsTableViewController else {
             return
         }
+        
+        for (index, section) in source.sections.enumerated() {
+            var steps: [Step] = []
+            for step in section.steps {
+                if step.instructions.count > 0 || step.imageURL != nil {
+                    steps.append(step)
+                }
+            }
+            source.sections[index].steps = steps
+        }
+        source.sections = source.sections.filter({$0.steps.count > 0})
         stepSections = source.sections
     }
 }
