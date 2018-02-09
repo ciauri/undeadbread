@@ -11,6 +11,7 @@ import Foundation
 struct Recipe: Codable {
     var name: String
     var ingredients: [Ingredient] = []
+    var rations: [Ration] = []
     var sections: [Section] = []
     
     struct Section: Codable {

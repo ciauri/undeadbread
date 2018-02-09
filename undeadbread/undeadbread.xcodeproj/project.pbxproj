@@ -24,6 +24,8 @@
 		9C5B3CA91F42848900BBBE4A /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B3CA21F42848900BBBE4A /* Recipe.swift */; };
 		9C5B3CAA1F42848900BBBE4A /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B3CA31F42848900BBBE4A /* Step.swift */; };
 		9C5B3CAB1F42848900BBBE4A /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B3CA41F42848900BBBE4A /* Tool.swift */; };
+		9C6527C0202D5F55007556DE /* IngredientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6527BF202D5F55007556DE /* IngredientService.swift */; };
+		9C6527C2202D6009007556DE /* RecipeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6527C1202D6009007556DE /* RecipeService.swift */; };
 		9C6BBF50202964C100A2353B /* StepEditorToolbarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6BBF4F202964C100A2353B /* StepEditorToolbarTableViewCell.swift */; };
 		9C755E3B201E8E9700B1228C /* RecipeResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C755E3A201E8E9700B1228C /* RecipeResultsTableViewController.swift */; };
 		9C755E3D201E924300B1228C /* IngredientResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C755E3C201E924300B1228C /* IngredientResultsTableViewController.swift */; };
@@ -76,6 +78,8 @@
 		9C5B3CA21F42848900BBBE4A /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		9C5B3CA31F42848900BBBE4A /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		9C5B3CA41F42848900BBBE4A /* Tool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
+		9C6527BF202D5F55007556DE /* IngredientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientService.swift; sourceTree = "<group>"; };
+		9C6527C1202D6009007556DE /* RecipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeService.swift; sourceTree = "<group>"; };
 		9C6BBF4F202964C100A2353B /* StepEditorToolbarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepEditorToolbarTableViewCell.swift; sourceTree = "<group>"; };
 		9C755E3A201E8E9700B1228C /* RecipeResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeResultsTableViewController.swift; sourceTree = "<group>"; };
 		9C755E3C201E924300B1228C /* IngredientResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientResultsTableViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 		9C5B3C6C1F42845B00BBBE4A /* undeadbread */ = {
 			isa = PBXGroup;
 			children = (
+				9C6527BE202D5F25007556DE /* Services */,
 				9CF5CDE7202A9A9B002A65F0 /* ViewControllers */,
 				9C09EF002023E8F900D56D97 /* Xibs */,
 				9C1F56AA200C1DA200983404 /* TableViewCells */,
@@ -212,6 +217,15 @@
 				9CD2E6411F428AD200F150C5 /* Rating.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9C6527BE202D5F25007556DE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9C6527BF202D5F55007556DE /* IngredientService.swift */,
+				9C6527C1202D6009007556DE /* RecipeService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		9CF5CDE7202A9A9B002A65F0 /* ViewControllers */ = {
@@ -374,6 +388,7 @@
 				9C09EF022023E98700D56D97 /* NewStepsTableViewController.swift in Sources */,
 				9C755E41201E92DA00B1228C /* BaseResultsTableViewController.swift in Sources */,
 				9CF5CDE9202AA43B002A65F0 /* SquareImageTableViewCell.swift in Sources */,
+				9C6527C2202D6009007556DE /* RecipeService.swift in Sources */,
 				9C1F56A5200C17D000983404 /* NewRecipeTableViewController.swift in Sources */,
 				9C1F56A7200C1D7700983404 /* TextFieldTableViewCell.swift in Sources */,
 				9C5B3CAA1F42848900BBBE4A /* Step.swift in Sources */,
@@ -387,6 +402,7 @@
 				9C6BBF50202964C100A2353B /* StepEditorToolbarTableViewCell.swift in Sources */,
 				9C5B3CAB1F42848900BBBE4A /* Tool.swift in Sources */,
 				9CD2E6401F4289F600F150C5 /* Loaf.swift in Sources */,
+				9C6527C0202D5F55007556DE /* IngredientService.swift in Sources */,
 				9C09EEFE2023E87300D56D97 /* TextViewTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -18,7 +18,7 @@ class NewRecipeTableViewController: UITableViewController {
             stepSections.count > 0 else {
                 return nil
         }
-        return Recipe(name: name, ingredients: ingredients.map({$0.ingredient}), sections: stepSections)
+        return Recipe(name: name, ingredients: ingredients.map({$0.ingredient}), rations: ingredients, sections: stepSections)
     }
     
     lazy private var name: String = ""
@@ -195,6 +195,10 @@ class NewRecipeTableViewController: UITableViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? NewIngredientTableViewController {
+            destination.searchableIngredients = IngredientService.shared.ingredients
+        }
+        
         if segue.identifier == "ingredientUnits",
             let selectedRow = tableView.indexPathForSelectedRow,
             selectedRow.section == Section.ingredients.rawValue,

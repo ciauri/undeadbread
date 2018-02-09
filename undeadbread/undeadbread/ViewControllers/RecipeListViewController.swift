@@ -13,6 +13,7 @@ class RecipeListViewController: UIViewController {
     
     var recipes: [Recipe] = [] {
         didSet {
+            recipes.forEach({RecipeService.shared.add(recipe: $0)})
             DispatchQueue.main.async {[weak self] in
                 self?.tableView.reloadData()
             }
@@ -32,7 +33,7 @@ class RecipeListViewController: UIViewController {
             let step2 = Step(instructions: "???", rations: [], imageURL: nil)
             let step3 = Step(instructions: "profit", rations: [], imageURL: nil)
             let section1 = Recipe.Section(title: "The only section", steps: [step1, step2, step3])
-            let recipe = Recipe(name: "Tartine Sourdough", ingredients: [water], sections: [section1])
+            let recipe = Recipe(name: "Tartine Sourdough", ingredients: [water], rations: [], sections: [section1])
             
             recipes = [recipe]
         }

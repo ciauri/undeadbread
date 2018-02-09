@@ -15,6 +15,7 @@ protocol IngredientModifiedDelegate: class {
 class NewIngredientTableViewController: UITableViewController {
     // MARK: - Injections
     var existingRation: Ration?
+    var searchableIngredients: [Ingredient] = []
     weak var delegate: IngredientModifiedDelegate?
 
     // MARK: - IBOutlets
@@ -75,7 +76,7 @@ class NewIngredientTableViewController: UITableViewController {
     
     lazy var resultsTableViewController: BaseResultsTableViewController = {
         let controller = BaseResultsTableViewController(style: .grouped)
-        controller.tableView.delegate = self
+        controller.selectedDelegate = self
         return controller
     }()
     
@@ -147,23 +148,15 @@ extension NewIngredientTableViewController: UIPickerViewDelegate {
 
 // MARK: - Search
 
-extension NewIngredientTableViewController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == self.tableView {
-            // nobody cares
-        } else {
-            let ingredient = resultsTableViewController.filteredResults[indexPath.row]
-            nameTextField.text = ingredient.description
-            searchController.isActive = false
-        }
-    }
-}
-
 extension NewIngredientTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        if let resultController = searchController.searchResultsController as? BaseResultsTableViewController {
-            // TODO: Real results
-            resultController.filteredResults = [Ingredient(name: "Water", recipe: nil)]
+        if let resultController = searchController.searchResultsController as? BaseResultsTableViewController,
+            let searchText = searchController.searchBar.text?.lowercased() {
+            if searchText.count > 0 {
+                resultController.filteredResults = searchableIngredients.filter({$0.name.lowercased().contains(searchText)})
+            } else {
+                resultController.filteredResults = searchableIngredients
+            }
             resultController.tableView.reloadData()
         }
     }
@@ -172,6 +165,14 @@ extension NewIngredientTableViewController: UISearchResultsUpdating {
 extension NewIngredientTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+}
+
+extension NewIngredientTableViewController: ResultSelectedDelegate {
+    func resultSelected(at indexPath: IndexPath) {
+        let ingredient = resultsTableViewController.filteredResults[indexPath.row]
+        nameTextField.text = ingredient.description
+        searchController.isActive = false
     }
 }
 

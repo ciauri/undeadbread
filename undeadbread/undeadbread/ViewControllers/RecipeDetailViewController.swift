@@ -11,7 +11,21 @@ import UIKit
 class RecipeDetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    var recipe: Recipe!
+    var recipe: Recipe! {
+        didSet {
+            var rowIndex = 0
+            for (sectionIndex, stepSection) in recipe.sections.enumerated() {
+                stepSectionMap[rowIndex] = sectionIndex
+                rowIndex += 1
+                for _ in stepSection.steps {
+                    stepSectionMap[rowIndex] = sectionIndex
+                    rowIndex += 1
+                }
+            }
+        }
+    }
+    
+    private var stepSectionMap: [Int: Int] = [:]
     
     enum Section: Int {
         case ingredients
@@ -30,7 +44,6 @@ class RecipeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = recipe.name
-
     }
 }
 
@@ -43,9 +56,9 @@ extension RecipeDetailViewController: UITableViewDataSource {
         if let recipeSection = Section(rawValue: section) {
             switch recipeSection {
             case .ingredients:
-                return recipe.ingredients.count
+                return recipe.rations.count
             case .steps:
-                return recipe.sections.map({$0.steps.count}).reduce(0, +)
+                return recipe.sections.map({$0.steps.count + 1}).reduce(0, +)
             }
         } else {
             return 0
@@ -53,22 +66,62 @@ extension RecipeDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
         if let section = Section(rawValue: indexPath.section) {
             switch section {
             case .ingredients:
-                let ingredient = recipe.ingredients[indexPath.row]
-                cell.textLabel?.text = "- \(ingredient)"
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath)
+                let ration = recipe.rations[indexPath.row]
+                cell.textLabel?.text = ration.ingredient.name
+                cell.detailTextLabel?.text = ration.formattedAmountAndUnit
+                return cell
             case .steps:
-                let steps: [Step] = recipe.sections.map({$0.steps}).reduce([], +)
-                let step = steps[indexPath.row]
-                cell.textLabel?.text = "\(step)"
+                if let sectionIndex = stepSectionMap[indexPath.row] {
+                    let currentSectionRowIndex = rowForSection(index: sectionIndex, withRow: indexPath.row)
+                    let stepSection = recipe.sections[sectionIndex]
+                    if currentSectionRowIndex == 0 {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "sectionTitleCell", for: indexPath)
+                        cell.textLabel?.text = stepSection.title
+                        return cell
+                    } else {
+                        let stepIndex = currentSectionRowIndex - 1
+                        let step = stepSection.steps[stepIndex]
+                        if let url = step.imageURL {
+                            guard let data = try? Data(contentsOf: url, options: []),
+                                let image = UIImage(data: data) else {
+                                    return UITableViewCell()
+                            }
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! SquareImageTableViewCell
+                            cell.squareImageView?.image = image
+                            return cell
+                        } else {
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath)
+                            cell.textLabel?.text = "\(stepIndex + 1). \(stepSection.steps[stepIndex].instructions)"
+                            return cell
+                        }
+                    }
+                } else {
+                    return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+                }
             }
+        } else {
+            return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return Section(rawValue: section)?.name ?? nil
+    }
+    
+    // MARK: - Helpers
+    
+    func rowForSection(index sectionIndex: Int, withRow row: Int) -> Int {
+        var rowsInPreviousSections = 0
+        for index in 0..<sectionIndex {
+            rowsInPreviousSections += 1
+            for _ in recipe.sections[index].steps {
+                rowsInPreviousSections += 1
+            }
+        }
+        return row - rowsInPreviousSections
     }
 }

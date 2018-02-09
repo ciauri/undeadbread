@@ -8,9 +8,13 @@
 
 import UIKit
 
+protocol ResultSelectedDelegate: class {
+    func resultSelected(at indexPath: IndexPath)
+}
 class BaseResultsTableViewController: UITableViewController {
     
     var filteredResults = [CustomStringConvertible]()
+    weak var selectedDelegate: ResultSelectedDelegate?
     
     // MARK: - Table view data source
     
@@ -32,4 +36,8 @@ class BaseResultsTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedDelegate?.resultSelected(at: indexPath)
+    }
 }
+
