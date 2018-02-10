@@ -70,7 +70,7 @@
                             <constraint firstAttribute="bottom" secondItem="OfH-CM-D6C" secondAttribute="bottom" id="rXW-2X-ubE"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="UndeadBread" largeTitleDisplayMode="always" id="Y1w-o4-O8L">
+                    <navigationItem key="navigationItem" title="UndeadBread" id="Y1w-o4-O8L">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dvx-HC-RIt">
                             <connections>
                                 <segue destination="bMk-CA-pJc" kind="show" id="8qa-bE-b2h"/>
@@ -325,7 +325,7 @@
                             <outlet property="delegate" destination="NpN-DI-hpT" id="wjL-MX-ogk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="New Recipe" largeTitleDisplayMode="always" id="l5W-TJ-b1Y">
+                    <navigationItem key="navigationItem" title="New Recipe" id="l5W-TJ-b1Y">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="tET-fr-ItR">
                             <connections>
                                 <segue destination="Fim-Zi-S3c" kind="unwind" unwindAction="unwindFromNewRecipeViewControllerWithSegue:" id="zkE-O9-ihH"/>
@@ -991,6 +991,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="MRN-Nw-jDJ"/>
         <segue reference="sjC-N1-uHI"/>
-        <segue reference="zeK-I1-adG"/>
+        <segue reference="zBo-DG-YAS"/>
     </inferredMetricsTieBreakers>
 </document>

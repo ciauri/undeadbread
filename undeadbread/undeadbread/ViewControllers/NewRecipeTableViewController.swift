@@ -197,6 +197,8 @@ class NewRecipeTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? NewIngredientTableViewController {
             destination.searchableIngredients = IngredientService.shared.ingredients
+        } else if let destination = segue.destination as? NewStepsTableViewController {
+            destination.photoService = PhotoService.shared
         }
         
         if segue.identifier == "ingredientUnits",

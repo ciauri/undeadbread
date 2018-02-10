@@ -54,6 +54,7 @@ class RecipeListViewController: UIViewController {
         if segue.identifier == "recipeDetail" {
             let detailVC = segue.destination as! RecipeDetailViewController
             detailVC.recipe = recipes[tableView.indexPathForSelectedRow!.row]
+            detailVC.photoService = PhotoService.shared
         }
     }
 

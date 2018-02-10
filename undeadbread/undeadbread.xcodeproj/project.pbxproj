@@ -34,6 +34,7 @@
 		9CD2E6401F4289F600F150C5 /* Loaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E63F1F4289F600F150C5 /* Loaf.swift */; };
 		9CD2E6421F428AD200F150C5 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E6411F428AD200F150C5 /* Rating.swift */; };
 		9CD2E6471F42983C00F150C5 /* RecipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2E6461F42983C00F150C5 /* RecipeDetailViewController.swift */; };
+		9CD8C24B202F889A009AC85C /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8C24A202F889A009AC85C /* PhotoService.swift */; };
 		9CF5CDE9202AA43B002A65F0 /* SquareImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5CDE8202AA43B002A65F0 /* SquareImageTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,7 @@
 		9CD2E63F1F4289F600F150C5 /* Loaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loaf.swift; sourceTree = "<group>"; };
 		9CD2E6411F428AD200F150C5 /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		9CD2E6461F42983C00F150C5 /* RecipeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewController.swift; sourceTree = "<group>"; };
+		9CD8C24A202F889A009AC85C /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
 		9CF5CDE8202AA43B002A65F0 /* SquareImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareImageTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +226,7 @@
 			children = (
 				9C6527BF202D5F55007556DE /* IngredientService.swift */,
 				9C6527C1202D6009007556DE /* RecipeService.swift */,
+				9CD8C24A202F889A009AC85C /* PhotoService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				9C755E41201E92DA00B1228C /* BaseResultsTableViewController.swift in Sources */,
 				9CF5CDE9202AA43B002A65F0 /* SquareImageTableViewCell.swift in Sources */,
 				9C6527C2202D6009007556DE /* RecipeService.swift in Sources */,
+				9CD8C24B202F889A009AC85C /* PhotoService.swift in Sources */,
 				9C1F56A5200C17D000983404 /* NewRecipeTableViewController.swift in Sources */,
 				9C1F56A7200C1D7700983404 /* TextFieldTableViewCell.swift in Sources */,
 				9C5B3CAA1F42848900BBBE4A /* Step.swift in Sources */,

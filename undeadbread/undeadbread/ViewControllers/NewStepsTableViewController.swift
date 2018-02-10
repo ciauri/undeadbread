@@ -12,6 +12,7 @@ class NewStepsTableViewController: UITableViewController {
     
     var editingSectionIndex: Int?
     var sections: [Recipe.Section] = [Recipe.Section(title: "", steps: [Step(instructions: "", rations: [], imageURL: nil)])]
+    var photoService: PhotoServiceProtocol?
     
     private var indexPathForImageSelection: IndexPath?
     
@@ -63,13 +64,12 @@ class NewStepsTableViewController: UITableViewController {
             return cell
         } else {
             let step = section.steps[indexPath.row - 1]
-            if let url = step.imageURL {
-                guard let data = try? Data(contentsOf: url, options: []),
-                    let image = UIImage(data: data) else {
-                        return UITableViewCell()
-                }
+            if let url = step.imageURL,
+                let filename = url.pathComponents.last {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! SquareImageTableViewCell
-                cell.squareImageView?.image = image
+                if let image = photoService?.getPhoto(named: filename) {
+                    cell.squareImageView?.image = image
+                }
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! TextViewTableViewCell
@@ -266,20 +266,14 @@ extension NewStepsTableViewController: StepEditorToolbarTableViewCellDelegate {
 
 extension NewStepsTableViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        guard let indexPath = indexPathForImageSelection,
-        let documentsURL = try? FileManager().url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else {
+        guard let indexPath = indexPathForImageSelection else {
             return
         }
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let pathToSaveImage = documentsURL.appendingPathComponent("\(UUID().uuidString).jpg")
-        do {
-            try UIImageJPEGRepresentation(image, 0.5)?.write(to: pathToSaveImage, options: .atomic)
-            sections[indexPath.section].steps[indexPath.row - 1].imageURL = pathToSaveImage
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        } catch let error {
-            NSLog(error.localizedDescription)
-        }
+        let imageName = "\(UUID().uuidString).jpg"
+        sections[indexPath.section].steps[indexPath.row - 1].imageURL = photoService?.save(photo: image, named: imageName)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         picker.dismiss(animated: true, completion: nil)
     }
 }

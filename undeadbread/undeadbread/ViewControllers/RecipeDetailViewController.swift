@@ -11,6 +11,8 @@ import UIKit
 class RecipeDetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
+    var photoService: PhotoServiceProtocol?
+    
     var recipe: Recipe! {
         didSet {
             var rowIndex = 0
@@ -85,13 +87,12 @@ extension RecipeDetailViewController: UITableViewDataSource {
                     } else {
                         let stepIndex = currentSectionRowIndex - 1
                         let step = stepSection.steps[stepIndex]
-                        if let url = step.imageURL {
-                            guard let data = try? Data(contentsOf: url, options: []),
-                                let image = UIImage(data: data) else {
-                                    return UITableViewCell()
-                            }
+                        if let url = step.imageURL,
+                            let filename = url.pathComponents.last {
                             let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! SquareImageTableViewCell
-                            cell.squareImageView?.image = image
+                            if let image = photoService?.getPhoto(named: filename) {
+                                cell.squareImageView?.image = image
+                            }
                             return cell
                         } else {
                             let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath)
