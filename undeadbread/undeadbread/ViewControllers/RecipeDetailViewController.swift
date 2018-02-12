@@ -27,6 +27,7 @@ class RecipeDetailViewController: UIViewController {
         }
     }
     
+    private var scrolledForTitle: Bool = false
     private var stepSectionMap: [Int: Int] = [:]
     
     enum Section: Int {
@@ -46,6 +47,36 @@ class RecipeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = recipe.name
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !scrolledForTitle {
+            resizeLargeTitleAndScroll()
+        }
+        
+    }
+    
+    private func resizeLargeTitleAndScroll() {
+        if let navBarSubviews = navigationController?.navigationBar.subviews {
+            for subView in navBarSubviews where NSStringFromClass(type(of: subView)).contains("LargeTitle"){
+                if let label = subView.subviews.first as? UILabel {
+                    label.numberOfLines = 0
+                    label.lineBreakMode = .byWordWrapping
+                    let oldLabelHeight = label.frame.size.height
+                    let largeTitleSubviewContentWidth = subView.frame.size.width - subView.layoutMargins.left - subView.layoutMargins.right
+                    let properlySizedLabel = label.sizeThatFits(CGSize(width: largeTitleSubviewContentWidth, height: CGFloat.greatestFiniteMagnitude))
+                    label.frame.size = properlySizedLabel
+                    let labelHeightDiff = label.frame.size.height - oldLabelHeight
+                    let needsResize = label.frame.size.height > subView.frame.size.height
+                    if needsResize {
+                        tableView.setContentOffset(CGPoint(x: 0, y: -(subView.frame.size.height + labelHeightDiff) ), animated: true)
+                    }
+                    scrolledForTitle = true
+                }
+            }
+        }
     }
 }
 
