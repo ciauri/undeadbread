@@ -13,7 +13,7 @@ protocol ResultSelectedDelegate: class {
 }
 class BaseResultsTableViewController: UITableViewController {
     
-    var filteredResults = [CustomStringConvertible]()
+    var filteredResults = [Named]()
     weak var selectedDelegate: ResultSelectedDelegate?
     
     // MARK: - Table view data source
@@ -32,7 +32,7 @@ class BaseResultsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeResult")!
         let result = filteredResults[indexPath.row]
         
-        cell.textLabel?.text = result.description
+        cell.textLabel?.text = result.name
         return cell
     }
     

@@ -13,15 +13,30 @@ protocol IngredientModifiedDelegate: class {
 }
 
 class NewIngredientTableViewController: UITableViewController {
+    // MARK: - Public
+    var currentRation: Ration? {
+        guard let measurement = currentMeasurement,
+            let name = nameTextField.text else {
+                return nil
+        }
+        return Ration(amount: measurement, ingredient: Ingredient(name: name, recipe: existingRecipe))
+    }
     // MARK: - Injections
-    var existingRation: Ration?
-    var searchableIngredients: [Ingredient] = []
+    var existingRation: Ration? {
+        didSet {
+            existingRecipe = existingRation?.ingredient.recipe
+        }
+    }
+    var searchableIngredients: [Named] = []
     weak var delegate: IngredientModifiedDelegate?
-
+    
     // MARK: - IBOutlets
+    @IBOutlet weak var recipeLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var unitLabel: UILabel!
+    
+    // MARK: - Private
     
     // MARK: - Helpers
     private let measurementFormatter: MeasurementFormatter = MeasurementFormatter()
@@ -34,15 +49,13 @@ class NewIngredientTableViewController: UITableViewController {
         unitPickerView.showsSelectionIndicator = true
         field.inputView = unitPickerView
         view.addSubview(field)
-        pickerView(unitPickerView, didSelectRow: 0, inComponent: 0)
+        if existingRation == nil {
+            pickerView(unitPickerView, didSelectRow: 0, inComponent: 0)
+        }
         return field
     }()
     
-    private var measurements: [Dimension] {
-        let masses: [Dimension] = Ration.acceptableMasses
-        let volumes: [Dimension] = Ration.acceptableVolumes
-        return masses + volumes
-    }
+    private let measurements: [Dimension]  = Ration.acceptableMasses as [Dimension] + Ration.acceptableVolumes as [Dimension]
     
     private var currentUnit: Dimension? {
         didSet {
@@ -64,23 +77,24 @@ class NewIngredientTableViewController: UITableViewController {
         return Measurement(value: floatAmount, unit: currentUnit)
     }
     
-    var currentRation: Ration? {
-        guard let measurement = currentMeasurement,
-            let name = nameTextField.text else {
-                return nil
+    private var existingRecipe: Recipe? {
+        didSet {
+            DispatchQueue.main.async { [recipeLabel, existingRecipe] in
+                recipeLabel?.text = existingRecipe?.name
+            }
         }
-        return Ration(amount: measurement, ingredient: Ingredient(name: name, recipe: nil))
     }
+
     
     // MARK: - Search
     
-    lazy var resultsTableViewController: BaseResultsTableViewController = {
+    lazy private var resultsTableViewController: BaseResultsTableViewController = {
         let controller = BaseResultsTableViewController(style: .grouped)
         controller.selectedDelegate = self
         return controller
     }()
     
-    lazy var searchController: UISearchController = {
+    lazy private var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: resultsTableViewController)
         controller.searchResultsUpdater = self
         controller.delegate = self
@@ -101,6 +115,7 @@ class NewIngredientTableViewController: UITableViewController {
         if let existingRation = existingRation {
             title = NSLocalizedString("Edit Ingredient", comment: "Edit ingredient title")
             navigationItem.rightBarButtonItem = nil
+            recipeLabel.text = existingRation.ingredient.name
             nameTextField.text = existingRation.ingredient.name
             amountTextField.text = String(existingRation.amount.value)
             currentUnit = (existingRation.amount.unit as! Dimension)
@@ -118,12 +133,73 @@ class NewIngredientTableViewController: UITableViewController {
             delegate.didUpdate(ingredient: ration)
         }
     }
-
-
+    
+    //MARK: - IBActions
     @IBAction func unitCellTapped(sender cell: UITableViewCell) {
         dummyTextField.becomeFirstResponder()
     }
 
+    @IBAction func removeRecipeTapped(_ sender: Any) {
+        existingRecipe = nil
+        DispatchQueue.main.async { [tableView, nameTextField] in
+            nameTextField?.text = nil
+            tableView?.reloadData()
+        }
+    }
+    
+}
+
+
+// MARK: - DataSource Overrides
+extension NewIngredientTableViewController {
+    private enum Section: Int {
+        case recipe = 0
+        case name
+        case amount
+        case units
+    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let sectionEnum = Section(rawValue:section)
+        let recipeSelected = existingRecipe != nil
+        switch sectionEnum {
+        case .some(.recipe):
+            return recipeSelected ? super.tableView(tableView, numberOfRowsInSection: section) : 0
+        case .some(.name):
+            return recipeSelected ? 0 : super.tableView(tableView, numberOfRowsInSection: section)
+        default:
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
+    }
+}
+
+// MARK: - Delegate Overrides
+extension NewIngredientTableViewController {
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let sectionEnum = Section(rawValue:section)
+        let recipeSelected = existingRecipe != nil
+        switch sectionEnum {
+        case .some(.recipe):
+            return recipeSelected ? super.tableView(tableView, heightForHeaderInSection: section) : 0
+        case .some(.name):
+            return recipeSelected ? 0 : super.tableView(tableView, heightForHeaderInSection: section)
+        default:
+            return super.tableView(tableView, heightForHeaderInSection: section)
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionEnum = Section(rawValue:section)
+        let recipeSelected = existingRecipe != nil
+        switch sectionEnum {
+        case .some(.recipe):
+            return recipeSelected ? super.tableView(tableView, titleForHeaderInSection: section) : nil
+        case .some(.name):
+            return recipeSelected ? nil : super.tableView(tableView, titleForHeaderInSection: section)
+        default:
+            return super.tableView(tableView, titleForHeaderInSection: section)
+        }
+    }
 }
 
 extension NewIngredientTableViewController: UIPickerViewDataSource {
@@ -171,8 +247,13 @@ extension NewIngredientTableViewController: UISearchBarDelegate {
 extension NewIngredientTableViewController: ResultSelectedDelegate {
     func resultSelected(at indexPath: IndexPath) {
         let ingredient = resultsTableViewController.filteredResults[indexPath.row]
-        nameTextField.text = ingredient.description
         searchController.isActive = false
+        existingRecipe =  ingredient as? Recipe ?? nil
+
+        DispatchQueue.main.async {[tableView, nameTextField] in
+            nameTextField?.text = ingredient.name
+            tableView?.reloadData()
+        }
     }
 }
 

@@ -110,8 +110,9 @@ class NewRecipeTableViewController: UITableViewController {
                     // Last cell in section
                     return tableView.dequeueReusableCell(withIdentifier: "plusCell", for: indexPath)
                 } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath)
                     let ration = ingredients[indexPath.row]
+                    let reuseId = ration.ingredient.recipe == nil ? "ingredientCell" : "recipeCell"
+                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
                     cell.textLabel?.text = ration.ingredient.name
                     cell.detailTextLabel?.text = ration.formattedAmountAndUnit
                     return cell
@@ -144,11 +145,11 @@ class NewRecipeTableViewController: UITableViewController {
                         }
                     }
                 } else {
-                    return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+                    fatalError("git gud")
                 }
             }
         } else {
-            return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+            fatalError("git gud")
         }
     }
     
@@ -196,7 +197,7 @@ class NewRecipeTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? NewIngredientTableViewController {
-            destination.searchableIngredients = IngredientService.shared.ingredients
+            destination.searchableIngredients = IngredientService.shared.ingredients as [Named] + RecipeService.shared.recipes as [Named]
         } else if let destination = segue.destination as? NewStepsTableViewController {
             destination.photoService = PhotoService.shared
         }
@@ -261,7 +262,8 @@ extension NewRecipeTableViewController: TextFieldTableViewCellDelegate {
 
 extension NewRecipeTableViewController: IngredientModifiedDelegate {
     func didUpdate(ingredient: Ration) {
-        if let selectedIndexPath = tableView.indexPathForSelectedRow,
+        if ingredient.ingredient.name.count > 0,
+            let selectedIndexPath = tableView.indexPathForSelectedRow,
             selectedIndexPath.section == Section.ingredients.rawValue {
             ingredients[selectedIndexPath.row] = ingredient
         }

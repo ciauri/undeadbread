@@ -71,11 +71,21 @@ class RecipeDetailViewController: UIViewController {
                     let labelHeightDiff = label.frame.size.height - oldLabelHeight
                     let needsResize = label.frame.size.height > subView.frame.size.height
                     if needsResize {
-                        tableView.setContentOffset(CGPoint(x: 0, y: -(subView.frame.size.height + labelHeightDiff) ), animated: true)
+                        tableView.setContentOffset(CGPoint(x: 0, y: -labelHeightDiff ), animated: true)
                     }
                     scrolledForTitle = true
                 }
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "nestedRecipe",
+            let destination = segue.destination as? RecipeDetailViewController,
+            let selectedIndexPath = tableView.indexPathForSelectedRow {
+            let nestedRecipe = recipe.ingredients[selectedIndexPath.row].recipe
+            destination.recipe = nestedRecipe
+            destination.photoService = photoService
         }
     }
 }
@@ -102,8 +112,9 @@ extension RecipeDetailViewController: UITableViewDataSource {
         if let section = Section(rawValue: indexPath.section) {
             switch section {
             case .ingredients:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath)
                 let ration = recipe.rations[indexPath.row]
+                let reuseId = ration.ingredient.recipe == nil ? "ingredientCell" : "recipeCell"
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
                 cell.textLabel?.text = ration.ingredient.name
                 cell.detailTextLabel?.text = ration.formattedAmountAndUnit
                 return cell
@@ -132,11 +143,11 @@ extension RecipeDetailViewController: UITableViewDataSource {
                         }
                     }
                 } else {
-                    return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+                    fatalError("git gud")
                 }
             }
         } else {
-            return tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+            fatalError("git gud")
         }
     }
     

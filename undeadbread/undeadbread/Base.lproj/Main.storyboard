@@ -154,15 +154,15 @@
                                     <rect key="frame" x="0.0" y="0.0" width="341" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Recipe" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="pzv-cx-0Be">
-                                            <rect key="frame" x="16" y="6.9999999999999982" width="77" height="31.333333333333332"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Recipe" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" id="pzv-cx-0Be">
+                                            <rect key="frame" x="16" y="10" width="60" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                             <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="100g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="byz-RX-gLx">
-                                            <rect key="frame" x="294.33333333333331" y="13" width="45.666666666666664" height="24"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="100g" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="byz-RX-gLx">
+                                            <rect key="frame" x="294.33333333333331" y="10" width="45.666666666666664" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                             <nil key="textColor"/>
@@ -170,6 +170,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="QAO-KB-SnS" kind="show" identifier="ingredientUnits" id="ySK-Gl-voe"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ingredientCell" textLabel="agD-RC-ETZ" detailTextLabel="YS0-Dz-F0s" style="IBUITableViewCellStyleValue1" id="po4-b3-fQx">
                                 <rect key="frame" x="0.0" y="99.333333333333343" width="375" height="44"/>
@@ -178,15 +181,15 @@
                                     <rect key="frame" x="0.0" y="0.0" width="341" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Ingredient" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="agD-RC-ETZ">
-                                            <rect key="frame" x="16.000000000000007" y="6.9999999999999982" width="112.66666666666667" height="31.333333333333332"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Ingredient" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" id="agD-RC-ETZ">
+                                            <rect key="frame" x="16" y="10" width="87.666666666666671" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="100g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="YS0-Dz-F0s">
-                                            <rect key="frame" x="294.33333333333331" y="13" width="45.666666666666664" height="24"/>
+                                            <rect key="frame" x="294.33333333333331" y="10" width="45.666666666666664" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                             <nil key="textColor"/>
@@ -345,15 +348,61 @@
         <scene sceneID="VrT-Ra-Obn">
             <objects>
                 <tableViewController id="QAO-KB-SnS" customClass="NewIngredientTableViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="rCv-6e-XWm">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="rCv-6e-XWm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <sections>
+                            <tableViewSection headerTitle="Recipe" id="zbM-hT-rbO">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="recipeCell" textLabel="GzX-0x-4g4" style="IBUITableViewCellStyleDefault" id="beu-Hz-7CX">
+                                        <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="beu-Hz-7CX" id="ujJ-tF-9lh">
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Recipe Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="GzX-0x-4g4">
+                                                    <rect key="frame" x="16" y="0.0" width="324" height="43.666666666666664"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <gestureRecognizers/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="removeRecipeCell" textLabel="6ZT-rx-JGX" style="IBUITableViewCellStyleDefault" id="liw-83-UUI" customClass="BigButtonTableViewCell" customModule="undeadbread" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="99.333333333333343" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="liw-83-UUI" id="TF0-Tl-1R7">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Remove Recipe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6ZT-rx-JGX">
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="43.666666666666664"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <gestureRecognizers/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <connections>
+                                                        <outletCollection property="gestureRecognizers" destination="PBP-1c-wO2" appends="YES" id="RZt-wg-hdA"/>
+                                                    </connections>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Name" id="JKO-e5-VKw">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="textFieldCell" id="c7O-51-COq" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="198.66666666666669" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c7O-51-COq" id="c8M-hx-LHK">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
@@ -379,7 +428,7 @@
                             <tableViewSection headerTitle="Amount" id="9ei-Lw-WBt">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="textFieldCell" id="9QG-1H-aXc" customClass="TextFieldTableViewCell" customModule="undeadbread" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="155.33333333333334" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="298" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9QG-1H-aXc" id="gbp-Y9-Tgx">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
@@ -405,7 +454,7 @@
                             <tableViewSection headerTitle="Units" id="eJI-hr-jbc">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="sVq-ih-7DM" style="IBUITableViewCellStyleDefault" id="YA4-di-AYj">
-                                        <rect key="frame" x="0.0" y="255.33333333333334" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="397.33333333333331" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YA4-di-AYj" id="Rot-Y0-TuM">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
@@ -443,6 +492,7 @@
                     <connections>
                         <outlet property="amountTextField" destination="cWN-9g-FuX" id="30m-g2-HPq"/>
                         <outlet property="nameTextField" destination="mW6-xI-If1" id="aEQ-wd-AQv"/>
+                        <outlet property="recipeLabel" destination="GzX-0x-4g4" id="0gW-4g-83T"/>
                         <outlet property="unitLabel" destination="sVq-ih-7DM" id="RF4-09-IKG"/>
                     </connections>
                 </tableViewController>
@@ -452,9 +502,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="162"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </pickerView>
-                <tapGestureRecognizer id="LfG-Co-RrC">
+                <tapGestureRecognizer id="LfG-Co-RrC" userLabel="Unit Cell Tapped">
                     <connections>
                         <action selector="unitCellTappedWithSender:" destination="QAO-KB-SnS" id="WBh-HL-JYi"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="PBP-1c-wO2" userLabel="Remove Recipe Cell Tapped">
+                    <connections>
+                        <action selector="removeRecipeTapped:" destination="QAO-KB-SnS" id="K0i-B8-nAp"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -803,10 +858,10 @@
             </objects>
             <point key="canvasLocation" x="2281" y="-1340"/>
         </scene>
-        <!--Title-->
+        <!--Recipe Detail-->
         <scene sceneID="49L-ed-FdW">
             <objects>
-                <viewController id="GSx-V9-rYY" customClass="RecipeDetailViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecipeDetailViewController" title="Recipe Detail" id="GSx-V9-rYY" customClass="RecipeDetailViewController" customModule="undeadbread" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8d3-CF-bBt"/>
                         <viewControllerLayoutGuide type="bottom" id="pZu-8m-hfa"/>
@@ -945,6 +1000,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="10O-TJ-Ifl" kind="show" identifier="nestedRecipe" id="GIn-OD-zYP"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -969,6 +1027,14 @@
             </objects>
             <point key="canvasLocation" x="1305" y="46"/>
         </scene>
+        <!--RecipeDetailViewController-->
+        <scene sceneID="sFb-Tr-NVf">
+            <objects>
+                <viewControllerPlaceholder referencedIdentifier="RecipeDetailViewController" id="10O-TJ-Ifl" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s4G-ra-iUX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2257" y="46"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="FHJ-LT-yF1">
             <objects>
@@ -990,7 +1056,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="MRN-Nw-jDJ"/>
-        <segue reference="sjC-N1-uHI"/>
-        <segue reference="zBo-DG-YAS"/>
+        <segue reference="ySK-Gl-voe"/>
+        <segue reference="zeK-I1-adG"/>
     </inferredMetricsTieBreakers>
 </document>

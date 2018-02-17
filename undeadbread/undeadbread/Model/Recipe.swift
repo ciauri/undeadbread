@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Recipe: Codable {
+struct Recipe: Codable, Named {
     var name: String
     var ingredients: [Ingredient] = []
     var rations: [Ration] = []

@@ -8,7 +8,11 @@
 
 import Foundation
 
-struct Ingredient: Codable {
+protocol Named {
+    var name: String { get }
+}
+
+struct Ingredient: Codable, Named {
     var name: String
     var recipe: Recipe?
 }
