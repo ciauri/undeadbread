@@ -25,7 +25,7 @@ class NewRecipeTableViewController: UITableViewController {
     private var ingredients: [Ration] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                self?.tableView.reloadSections([Section.ingredients.rawValue], with: .automatic)
+                self?.tableView.reloadData()
             }
         }
     }
@@ -177,6 +177,26 @@ class NewRecipeTableViewController: UITableViewController {
             default:
                 break;
             }
+        }
+    }
+    
+    // MARK: - Editing
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return Section(rawValue: indexPath.section) == .ingredients && indexPath.row != tableView.lastRowInSection(section: indexPath.section)
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            DispatchQueue.main.async {
+                self.ingredients.remove(at: indexPath.row)
+            }
+        } else if editingStyle == .insert {
+            
         }
     }
     

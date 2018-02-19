@@ -18,7 +18,7 @@ class IngredientService: IngredientServiceProtocol {
     
     // MARK: - Mutator
     func add(ingredient: Ingredient) {
-        if !ingredients.contains(where: {$0.name == ingredient.name}) {
+        if !ingredients.contains(where: {$0.name == ingredient.name}) && ingredient.recipe == nil {
             ingredients.append(ingredient)
         }
     }
