@@ -14,7 +14,13 @@ protocol Named {
 
 struct Ingredient: Codable, Named {
     var name: String
-    var recipe: Recipe?
+    var recipe: Recipe? {
+        didSet {
+            if let name = recipe?.name {
+                self.name = name
+            }
+        }
+    }
 }
 
 struct Ration: Codable {

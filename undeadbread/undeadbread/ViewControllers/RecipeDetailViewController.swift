@@ -8,14 +8,21 @@
 
 import UIKit
 
+protocol RecipeModifiedDelegate: class {
+    func didUpdate(_ recipe: Recipe)
+}
+
 class RecipeDetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var photoService: PhotoServiceProtocol?
-    var recipeService: RecipeService!
+    var recipeService: RecipeService! = RecipeService.shared
+    
+    weak var modifiedRecipeDelegate: RecipeModifiedDelegate?
     
     var recipe: Recipe! {
         didSet {
+            modifiedRecipeDelegate?.didUpdate(recipe)
             var rowIndex = 0
             for (sectionIndex, stepSection) in recipe.sections.enumerated() {
                 stepSectionMap[rowIndex] = sectionIndex
@@ -91,6 +98,7 @@ class RecipeDetailViewController: UIViewController {
             let nestedRecipe = recipe.ingredients[selectedIndexPath.row].recipe
             destination.recipe = nestedRecipe
             destination.photoService = photoService
+            destination.modifiedRecipeDelegate = self
         } else if segue.identifier == "editRecipe",
             let destination = segue.destination as? NewRecipeTableViewController {
             destination.editingRecipe = recipe
@@ -186,5 +194,16 @@ extension RecipeDetailViewController: UITableViewDataSource {
             }
         }
         return row - rowsInPreviousSections
+    }
+}
+
+extension RecipeDetailViewController: RecipeModifiedDelegate {
+    func didUpdate(_ recipe: Recipe) {
+        if let indexPath = tableView.indexPathForSelectedRow {
+            self.recipe.ingredients[indexPath.row].recipe = recipe
+            DispatchQueue.main.async { [tableView] in
+                tableView?.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
     }
 }

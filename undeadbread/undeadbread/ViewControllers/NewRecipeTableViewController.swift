@@ -12,7 +12,7 @@ import UIKit
 
 class NewRecipeTableViewController: UITableViewController {
     
-    var photoService: PhotoServiceProtocol!
+    var photoService: PhotoServiceProtocol! = PhotoService.shared
     
     var editingRecipe: Recipe? {
         didSet {

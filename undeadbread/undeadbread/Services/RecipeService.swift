@@ -31,10 +31,8 @@ class RecipeService {
             }
         }
         if let index = recipes.index(of: recipe) {
-            recipes.remove(at: index)
-            recipes.append(recipe)
-        }
-        if !recipes.contains(where: {$0.name == recipe.name}) {
+            recipes[index] = recipe
+        } else if !recipes.contains(where: {$0.name == recipe.name}) {
             recipes.append(recipe)
         }
     }
