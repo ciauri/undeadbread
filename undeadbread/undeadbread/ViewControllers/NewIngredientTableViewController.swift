@@ -19,7 +19,7 @@ class NewIngredientTableViewController: UITableViewController {
             let name = nameTextField.text else {
                 return nil
         }
-        return Ration(amount: measurement, ingredient: Ingredient(name: name, recipe: existingRecipe))
+        return Ration(amount: measurement, ingredient: Ingredient(name: existingRecipe?.name ?? name, recipe: existingRecipe))
     }
     // MARK: - Injections
     var existingRation: Ration? {
@@ -118,10 +118,21 @@ class NewIngredientTableViewController: UITableViewController {
             recipeLabel.text = existingRation.ingredient.name
             nameTextField.text = existingRation.ingredient.name
             amountTextField.text = String(existingRation.amount.value)
-            currentUnit = (existingRation.amount.unit as! Dimension)
-            if let index = measurements.index(of: currentUnit!) {
+            currentUnit = existingRation.amount.unit as? Dimension
+            if let currentUnit = currentUnit,
+                let index = measurements.index(of: currentUnit) {
                 (dummyTextField.inputView as? UIPickerView)?.selectRow(index, inComponent: 0, animated: false)
             }
+
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Get updated recipe if needed
+        if let recipe = existingRecipe {
+            existingRecipe = RecipeService.shared.recipes.first(where: {$0.uuid == recipe.uuid})
         }
     }
     
@@ -131,6 +142,14 @@ class NewIngredientTableViewController: UITableViewController {
         if let delegate = delegate,
             let ration = self.currentRation {
             delegate.didUpdate(ingredient: ration)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RecipeDetailViewController {
+            destination.recipe = existingRecipe
+            destination.photoService = PhotoService.shared
+            destination.recipeService = RecipeService.shared
         }
     }
     

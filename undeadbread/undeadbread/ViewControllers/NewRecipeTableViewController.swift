@@ -12,20 +12,32 @@ import UIKit
 
 class NewRecipeTableViewController: UITableViewController {
     
-    var recipe: Recipe? {
+    var photoService: PhotoServiceProtocol!
+    
+    var editingRecipe: Recipe? {
+        didSet {
+            ingredients = editingRecipe?.rations ?? []
+            stepSections = editingRecipe?.sections ?? []
+            name = editingRecipe?.name ?? ""
+        }
+    }
+    var newRecipe: Recipe? {
         guard name.count > 0,
             ingredients.count > 0,
             stepSections.count > 0 else {
                 return nil
         }
-        return Recipe(name: name, ingredients: ingredients.map({$0.ingredient}), rations: ingredients, sections: stepSections)
+        return Recipe(name: name, ingredients: ingredients.map({$0.ingredient}), rations: ingredients, sections: stepSections, uuid: editingRecipe?.uuid)
     }
     
     lazy private var name: String = ""
     private var ingredients: [Ration] = [] {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.reloadData()
+        willSet {
+            // Handling deletion in property observers has odd, undefined behavior, so we handle that case separately
+            if newValue.count >= ingredients.count {
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.reloadData()
+                }
             }
         }
     }
@@ -67,6 +79,14 @@ class NewRecipeTableViewController: UITableViewController {
         
         static var count: Int {
             return 3
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if editingRecipe != nil {
+            title = "Edit Recipe"
         }
     }
 
@@ -130,13 +150,13 @@ class NewRecipeTableViewController: UITableViewController {
                     } else {
                         let stepIndex = currentSectionRowIndex - 1
                         let step = stepSection.steps[stepIndex]
-                        if let url = step.imageURL {
-                            guard let data = try? Data(contentsOf: url, options: []),
-                                let image = UIImage(data: data) else {
-                                    return UITableViewCell()
+                        if let url = step.imageURL,
+                            let filename = url.pathComponents.last {
+                            guard let photo = photoService.getPhoto(named: filename) else {
+                                return UITableViewCell()
                             }
                             let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as! SquareImageTableViewCell
-                            cell.squareImageView?.image = image
+                            cell.squareImageView?.image = photo
                             return cell
                         } else {
                             let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath)
@@ -194,6 +214,7 @@ class NewRecipeTableViewController: UITableViewController {
         if editingStyle == .delete {
             DispatchQueue.main.async {
                 self.ingredients.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
             }
         } else if editingStyle == .insert {
             
@@ -236,6 +257,18 @@ class NewRecipeTableViewController: UITableViewController {
             let sectionIndex = stepSectionMap[selectedIndexPath.row] {
             destination.sections = sections
             destination.editingSectionIndex = sectionIndex
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "addNewRecipe" {
+            let editing = editingRecipe != nil
+            if editing {
+                performSegue(withIdentifier: "editRecipe", sender: nil)
+            }
+            return editingRecipe == nil
+        } else {
+            return true
         }
     }
 }

@@ -24,8 +24,15 @@ class RecipeService {
     
     // MARK: - Mutator
     func add(recipe: Recipe) {
-        for ingredient in recipe.ingredients + recipe.rations.map({$0.ingredient}) {
+        for ingredient in recipe.rations.map({$0.ingredient}) {
             ingredientDelegate?.add(ingredient: ingredient)
+            if let recipe = ingredient.recipe {
+                add(recipe: recipe)
+            }
+        }
+        if let index = recipes.index(of: recipe) {
+            recipes.remove(at: index)
+            recipes.append(recipe)
         }
         if !recipes.contains(where: {$0.name == recipe.name}) {
             recipes.append(recipe)

@@ -12,6 +12,7 @@ class RecipeDetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var photoService: PhotoServiceProtocol?
+    var recipeService: RecipeService!
     
     var recipe: Recipe! {
         didSet {
@@ -55,7 +56,11 @@ class RecipeDetailViewController: UIViewController {
         if !scrolledForTitle {
             resizeLargeTitleAndScroll()
         }
-        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        scrolledForTitle = false
     }
     
     private func resizeLargeTitleAndScroll() {
@@ -86,6 +91,21 @@ class RecipeDetailViewController: UIViewController {
             let nestedRecipe = recipe.ingredients[selectedIndexPath.row].recipe
             destination.recipe = nestedRecipe
             destination.photoService = photoService
+        } else if segue.identifier == "editRecipe",
+            let destination = segue.destination as? NewRecipeTableViewController {
+            destination.editingRecipe = recipe
+            destination.photoService = photoService
+        }
+    }
+    
+    @IBAction func unwindFromEditRecipe(segue: UIStoryboardSegue) {
+        if let source = segue.source as? NewRecipeTableViewController {
+            recipe = source.newRecipe
+            recipeService.add(recipe: recipe)
+            title = recipe.name
+            DispatchQueue.main.async {[tableView] in
+                tableView?.reloadData()
+            }
         }
     }
 }
